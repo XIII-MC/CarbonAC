@@ -29,7 +29,7 @@ public class Profile {
     private final VehicleData vehicleData;
     //-------------------------------------------
 
-    //--------------------------------------
+    //-------------------------------------------
     private final CheckHolder checkHolder;
     //--------------------------------------
 

@@ -32,21 +32,21 @@ public class AlertManager implements Listener, Initializer {
         return playersWithAlerts;
     }
 
-    public void addPlayerToAlerts(UUID uuid) {
+    public void addPlayerToAlerts(final UUID uuid) {
         this.playersWithAlerts.add(uuid);
     }
 
-    public void removePlayerFromAlerts(UUID uuid) {
+    public void removePlayerFromAlerts(final UUID uuid) {
         this.playersWithAlerts.remove(uuid);
     }
 
-    public boolean hasAlerts(UUID uuid) {
+    public boolean hasAlerts(final UUID uuid) {
         return this.playersWithAlerts.contains(uuid);
     }
 
     //Make sure we don't get a memory leak
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onQuit(PlayerQuitEvent e) {
+    public void onQuit(final PlayerQuitEvent e) {
         removePlayerFromAlerts(e.getPlayer().getUniqueId());
     }
 

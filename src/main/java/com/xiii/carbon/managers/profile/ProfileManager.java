@@ -21,7 +21,7 @@ public class ProfileManager implements Initializer {
                 .forEach(this::createProfile);
     }
 
-    public void createProfile(Player player) {
+    public void createProfile(final Player player) {
 
         UUID uuid = player.getUniqueId();
 
@@ -30,12 +30,16 @@ public class ProfileManager implements Initializer {
         this.profiles.put(uuid, new Profile(player));
     }
 
-    public void removeProfile(Player player) {
+    public void removeProfile(final Player player) {
         this.profiles.remove(player.getUniqueId());
     }
 
-    public Profile getProfile(Player player) {
+    public Profile getProfile(final Player player) {
         return this.profiles.get(player.getUniqueId());
+    }
+
+    public Profile getProfile(final UUID uuid) {
+        return this.profiles.get(uuid);
     }
 
     public Map<UUID, Profile> getProfileMap() {

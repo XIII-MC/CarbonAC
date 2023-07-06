@@ -7,10 +7,12 @@ import com.github.retrooper.packetevents.protocol.chat.message.ChatMessage;
 import com.github.retrooper.packetevents.protocol.chat.message.ChatMessageLegacy;
 import com.github.retrooper.packetevents.protocol.chat.message.ChatMessage_v1_16;
 import com.github.retrooper.packetevents.protocol.player.User;
+import com.github.retrooper.packetevents.util.adventure.AdventureReflectionUtil;
 import com.github.retrooper.packetevents.util.adventure.AdventureSerializer;
 import com.github.retrooper.packetevents.wrapper.PacketWrapper;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerChatMessage;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSystemChatMessage;
+import com.xiii.carbon.processors.listener.PacketListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -137,7 +139,7 @@ public class JsonBuilder {
             } else {
 
                 message = new ChatMessageLegacy(AdventureSerializer.parseComponent(json), ChatTypes.CHAT);
-
+                //TODO: Not working in 1.8....
             }
 
             chatPacket = new WrapperPlayServerChatMessage(message);
@@ -149,7 +151,7 @@ public class JsonBuilder {
 
             if (p == null) continue;
 
-            PacketEvents.getAPI().getProtocolManager().sendPacket(getChannel(p), (PacketWrapper)chatPacket);
+            PacketEvents.getAPI().getProtocolManager().sendPacket(PacketEvents.getAPI().getPlayerManager().getChannel(p), (PacketWrapper)chatPacket);
         }
     }
 

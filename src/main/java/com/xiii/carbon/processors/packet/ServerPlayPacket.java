@@ -7,6 +7,7 @@ import com.github.retrooper.packetevents.wrapper.play.server.*;
 public class ServerPlayPacket {
 
     private final PacketType.Play.Server type;
+    private final PacketPlaySendEvent event;
     private final long timeStamp;
 
     /*
@@ -36,6 +37,7 @@ public class ServerPlayPacket {
 
     public ServerPlayPacket(final PacketType.Play.Server type, final PacketPlaySendEvent packet, final long timeStamp) {
         this.timeStamp = timeStamp;
+        this.event = packet;
 
         switch (this.type = type) {
 
@@ -97,6 +99,10 @@ public class ServerPlayPacket {
 
     public PacketType.Play.Server getType() {
         return type;
+    }
+
+    public PacketPlaySendEvent getEvent() {
+        return event;
     }
 
     public long getTimeStamp() {

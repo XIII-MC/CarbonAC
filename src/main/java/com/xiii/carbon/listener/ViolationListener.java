@@ -1,5 +1,6 @@
 package com.xiii.carbon.listener;
 
+import com.github.retrooper.packetevents.util.adventure.AdventureSerializer;
 import com.xiii.carbon.Carbon;
 import com.xiii.carbon.api.events.CarbonViolationEvent;
 import com.xiii.carbon.enums.MsgType;
@@ -7,6 +8,7 @@ import com.xiii.carbon.files.Config;
 import com.xiii.carbon.managers.profile.Profile;
 import com.xiii.carbon.tasks.TickTask;
 import com.xiii.carbon.utils.JsonBuilder;
+import net.md_5.bungee.api.ChatMessageType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +19,7 @@ public class ViolationListener implements Listener {
 
     private final Carbon plugin;
 
-    public ViolationListener(Carbon plugin) {
+    public ViolationListener(final Carbon plugin) {
         this.plugin = plugin;
     }
 
@@ -30,11 +32,12 @@ public class ViolationListener implements Listener {
 
             if (p == null || !p.isOnline()) return;
 
-            Profile profile = this.plugin.getProfileManager().getProfile(p);
+            final Profile profile = this.plugin.getProfileManager().getProfile(p);
 
             if (profile == null) return;
 
-            final String tps = String.valueOf(TickTask.getTPS());
+            final String tps = "20";
+            //TODO: Fix TPS
 
             final String checkType = e.getType();
 
@@ -80,6 +83,8 @@ public class ViolationListener implements Listener {
                         .buildText();
 
                 jsonBuilder.sendMessage(this.plugin.getAlertManager().getPlayersWithAlerts());
+                this.plugin.getAlertManager().getPlayersWithAlerts().forEach(uuid -> this.plugin.getProfileManager().getProfile(uuid).getPlayer().sendMessage(alertMessage));
+                //TODO: Packet not working on 1.8?
 
                 if (!Config.Setting.CONSOLE_ALERT.getBoolean()) break alerts;
 

@@ -67,7 +67,7 @@ public class Config implements Initializer {
 
         CONFIG_VERSION("config-version", "b0001-config", "This won't have any visual impact, this is only for the plugin, changing it will only break things."),
 
-        PREFIX("prefix", "§7[§c⛐§7] ", "This prefix will be used everywhere, including alerts, commands ect..."),
+        PREFIX("prefix", "§7[§cC§7] ", "This prefix will be used everywhere, including alerts, commands ect..."),
 
         // Bukkit.spigot().getConfig().getString("messages.unknown-command")
         MESSAGES("messages", "", "Messages used across Carbon"),

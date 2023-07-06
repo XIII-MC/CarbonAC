@@ -102,7 +102,7 @@ public abstract class AbstractCheck {
 
     public void fail() {
 
-        //Development
+        //Disabled
         if (this.disabled) return;
 
         //Just to make sure

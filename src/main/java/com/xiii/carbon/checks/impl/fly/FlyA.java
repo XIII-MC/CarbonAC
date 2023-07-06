@@ -13,15 +13,15 @@ import com.xiii.carbon.utils.MathUtils;
 @Experimental
 public class FlyA extends Check {
     public FlyA(final Profile profile) {
-        super(profile, CheckType.FLY, "A", "Checks for gravity modifications");
+        super(profile, CheckType.FLY, "A", "Player is not following Minecraft's Y motion prediction.");
     }
 
     @Override
     public void handle(final ClientPlayPacket clientPlayPacket) {
 
-        //final boolean exempt = profile.isExempt().isFly() || profile.isExempt().isWater(150L) || profile.isExempt().isLava(150L) || profile.isExempt().isTrapdoor_door() || profile.isExempt().isCobweb(50L) || profile.isExempt().isCake() || profile.getVehicleData().isRiding(150L) || profile.isExempt().isJoined(50L);
+        final boolean exempt = profile.isExempt().isFly() || profile.isExempt().isWater(150L) || profile.isExempt().isLava(150L) || profile.isExempt().isTrapdoor_door() || profile.isExempt().isCobweb(50L) || profile.isExempt().isCake() || profile.getVehicleData().isRiding(150L) || profile.isExempt().isJoined(50L);
 
-        //final boolean damageExempt = profile.isExempt().tookDamage(300L);
+        final boolean damageExempt = profile.isExempt().tookDamage(300L);
 
         if (!clientPlayPacket.isMovement()) return;
 
@@ -29,7 +29,7 @@ public class FlyA extends Check {
 
         final double deltaY = movementData.getDeltaY();
 
-        //if (!exempt && !damageExempt && deltaY >= 0 && movementData.getAirTicks() == 1 && deltaY != MathUtils.JUMP) fail("emy=" + MathUtils.JUMP + " my=" + deltaY);
+        if (!exempt && !damageExempt && deltaY >= 0 && movementData.getAirTicks() == 1 && deltaY != MathUtils.JUMP) fail("emy=" + MathUtils.JUMP + " my=" + deltaY);
 
         if (!movementData.isOnGround()) {
 
@@ -37,7 +37,6 @@ public class FlyA extends Check {
 
             double prediction_limit = 1.9262653090336062E-14;
 
-            /*
             if (profile.isExempt().isClimable(50L)) {
 
                 if (deltaY >= 0) prediction_limit = 0.08075199932861336; //TODO: might have slightly changed in newer version
@@ -63,10 +62,8 @@ public class FlyA extends Check {
                 }
             } else postExempt = false;
 
-             */
 
-
-            if (prediction > prediction_limit && increaseBuffer() > 1) fail("pred=" + prediction + " my=" + deltaY);
+            if (!exempt && !postExempt && prediction > prediction_limit && increaseBuffer() > 1) fail("pred=" + prediction + " my=" + deltaY);
 
         } else decreaseBufferBy(1);
     }
