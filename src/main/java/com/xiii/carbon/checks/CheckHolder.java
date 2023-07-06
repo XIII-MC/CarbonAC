@@ -2,6 +2,8 @@ package com.xiii.carbon.checks;
 
 import com.xiii.carbon.checks.annotation.Testing;
 import com.xiii.carbon.checks.impl.fly.FlyA;
+import com.xiii.carbon.checks.impl.killaura.KillAuraA;
+import com.xiii.carbon.checks.impl.killaura.KillAuraB;
 import com.xiii.carbon.checks.types.Check;
 import com.xiii.carbon.managers.profile.Profile;
 import com.xiii.carbon.processors.packet.ClientPlayPacket;
@@ -43,7 +45,9 @@ public class CheckHolder {
          */
         addChecks(
 
-                new FlyA(this.profile)
+                new FlyA(this.profile),
+                new KillAuraA(this.profile),
+                new KillAuraB(this.profile)
 
         );
 

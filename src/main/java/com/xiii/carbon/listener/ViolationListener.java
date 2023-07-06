@@ -88,7 +88,7 @@ public class ViolationListener implements Listener {
 
                 if (!Config.Setting.CONSOLE_ALERT.getBoolean()) break alerts;
 
-                Bukkit.getConsoleSender().sendMessage(alertMessage);
+                //Bukkit.getConsoleSender().sendMessage(alertMessage);
             }
         });
     }
