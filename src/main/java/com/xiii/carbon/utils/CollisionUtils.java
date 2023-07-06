@@ -348,10 +348,13 @@ public final class CollisionUtils {
     public static class NearbyBlocksResult {
 
         private final List<Material> blockTypes = new ArrayList<>();
+        private final List<Material> blockAboveTypes = new ArrayList<>();
+        private final List<Material> blockMiddleTypes = new ArrayList<>();
+        private final List<Material> blockBelowTypes = new ArrayList<>();
 
-        private boolean nearGround, blockAbove, nearWaterLogged;
+        private boolean nearGround, isBlockAbove, isBlockMiddle, isBlockBelow, nearWaterLogged;
 
-        private void handle(Block block, BlockPosition blockPosition, NmsInstance nms) {
+        private void handle(final Block block, final BlockPosition blockPosition, final NmsInstance nms) {
 
             /*
             Get the material type.
@@ -363,25 +366,61 @@ public final class CollisionUtils {
              */
             if (type == null) return;
 
-            /*
-            Handle statuses if the block is solid.
-             */
-            if (type.isSolid()) {
+            switch (blockPosition) {
 
-                switch (blockPosition) {
+                case MIDDLE:
 
-                    case ABOVE:
+                    if (!this.isBlockMiddle) this.isBlockMiddle = true;
 
-                        if (!this.blockAbove) this.blockAbove = true;
+                        /*
+                        Duplicate.
+                        */
+                    if (this.blockMiddleTypes.contains(type)) return;
 
-                        break;
+                        /*
+                        Add the block type.
+                        */
+                    this.blockMiddleTypes.add(type);
 
-                    case UNDER:
+                    break;
 
-                        if (!this.nearGround) this.nearGround = true;
+                case ABOVE:
 
-                        break;
-                }
+                    if (!this.isBlockAbove) this.isBlockAbove = true;
+
+                        /*
+                        Duplicate.
+                        */
+                    if (this.blockAboveTypes.contains(type)) return;
+
+                        /*
+                        Add the block type.
+                        */
+                    this.blockAboveTypes.add(type);
+
+                    break;
+
+                case UNDER:
+
+                    if (!this.nearGround) this.nearGround = true;
+
+                    break;
+
+                case BELOW:
+
+                    if (!this.isBlockBelow) this.isBlockBelow = true;
+
+                        /*
+                        Duplicate.
+                        */
+                    if (this.blockBelowTypes.contains(type)) return;
+
+                        /*
+                        Add the block type.
+                        */
+                    this.blockBelowTypes.add(type);
+
+                    break;
             }
 
             /*
@@ -404,12 +443,32 @@ public final class CollisionUtils {
             return blockTypes;
         }
 
+        public List<Material> getBlockAboveTypes() {
+            return blockAboveTypes;
+        }
+
+        public List<Material> getBlockMiddleTypes() {
+            return blockMiddleTypes;
+        }
+
+        public List<Material> getBlockBelowTypes() {
+            return blockBelowTypes;
+        }
+
         public boolean isNearGround() {
             return nearGround;
         }
 
         public boolean hasBlockAbove() {
-            return blockAbove;
+            return isBlockAbove;
+        }
+
+        public boolean hasBlockBelow() {
+            return isBlockBelow;
+        }
+
+        public boolean hasBlockMiddle() {
+            return isBlockMiddle;
         }
 
         public boolean isNearWaterLogged() {

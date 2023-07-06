@@ -40,9 +40,9 @@ public class MovementData implements Data {
     private CustomLocation location;
     private CustomLocation lastLocation;
 
-    private List<Material> nearbyBlocks = new ArrayList<>();
+    private List<Material> nearbyBlocks = null, aboveBlocks = null, middleBlocks = null, belowBlocks = new ArrayList<>();
 
-    private boolean onGround, lastOnGround, serverGround, lastServerGround, aboveBlocks;
+    private boolean onGround, lastOnGround, serverGround, lastServerGround, isBlockAbove, isBlockMiddle, isBlockBelow;
 
     private int flyTicks, serverGroundTicks, lastServerGroundTicks, nearGroundTicks, lastNearGroundTicks,
             lastUnloadedChunkTicks = 100,
@@ -201,8 +201,17 @@ public class MovementData implements Data {
          */
         this.nearbyBlocks = nearbyBlocksResult.getBlockTypes();
 
-        this.aboveBlocks = nearbyBlocksResult.hasBlockAbove();
+        this.aboveBlocks = nearbyBlocksResult.getBlockAboveTypes();
 
+        this.middleBlocks = nearbyBlocksResult.getBlockMiddleTypes();
+
+        this.belowBlocks = nearbyBlocksResult.getBlockBelowTypes();
+
+        this.isBlockAbove = nearbyBlocksResult.hasBlockAbove();
+
+        this.isBlockMiddle = nearbyBlocksResult.hasBlockMiddle();
+
+        this.isBlockBelow = nearbyBlocksResult.hasBlockBelow();
     }
 
     private void processPlayerData() {
@@ -449,7 +458,27 @@ public class MovementData implements Data {
         return nearbyBlocks;
     }
 
-    public boolean isAboveBlocks() {
+    public List<Material> getAboveBlocks() {
         return aboveBlocks;
+    }
+
+    public List<Material> getMiddleBlocks() {
+        return middleBlocks;
+    }
+
+    public List<Material> getBelowBlocks() {
+        return belowBlocks;
+    }
+
+    public boolean isBlockAbove() {
+        return isBlockAbove;
+    }
+
+    public boolean isBlockMiddle() {
+        return isBlockMiddle;
+    }
+
+    public boolean isBlockBelow() {
+        return isBlockBelow;
     }
 }
