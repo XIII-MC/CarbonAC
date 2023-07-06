@@ -1,0 +1,10 @@
+name: Carbon
+version: '${project.version}'
+main: com.xiii.carbon.Carbon
+api-version: 1.20
+prefix: Carbon
+authors: [ XIII___, Dukeinpro (Vagdedes2) ]
+description: A Minecraft anti-cheat solution
+commands:
+  carbon:
+    usage: /carbon
