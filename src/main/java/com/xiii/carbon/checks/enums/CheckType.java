@@ -3,8 +3,9 @@ package com.xiii.carbon.checks.enums;
 public enum CheckType {
 
     FLY("Fly", CheckCategory.MOVEMENT),
+    FASTCLIMB("FastClimb", CheckCategory.MOVEMENT),
     SPEED("Speed", CheckCategory.MOVEMENT),
-    KILLAURA("KillAura", CheckCategory.MOVEMENT),
+    KILLAURA("KillAura", CheckCategory.COMBAT),
     MOTION("Motion", CheckCategory.MOVEMENT);
 
     private final String checkName;
