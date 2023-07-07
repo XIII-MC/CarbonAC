@@ -9,6 +9,7 @@ import com.xiii.carbon.processors.PredictionEngine;
 import com.xiii.carbon.processors.packet.ClientPlayPacket;
 import com.xiii.carbon.processors.packet.ServerPlayPacket;
 import com.xiii.carbon.utils.MathUtils;
+import com.xiii.carbon.utils.MoveUtils;
 
 @Experimental
 public class FlyA extends Check {
@@ -19,51 +20,26 @@ public class FlyA extends Check {
     @Override
     public void handle(final ClientPlayPacket clientPlayPacket) {
 
-        final boolean exempt = profile.isExempt().isFly() || profile.isExempt().isWater(150L) || profile.isExempt().isLava(150L) || profile.isExempt().isTrapdoor_door() || profile.isExempt().isCobweb(50L) || profile.isExempt().isCake() || profile.getVehicleData().isRiding(150L) || profile.isExempt().isJoined(50L);
-
-        final boolean damageExempt = profile.isExempt().tookDamage(300L);
-
         if (!clientPlayPacket.isMovement()) return;
 
         final MovementData movementData = profile.getMovementData();
 
+        final boolean exempt = profile.isExempt().isFly() || profile.isExempt().isWater(150L) || profile.isExempt().isLava(150L) || profile.isExempt().isTrapdoor_door() || profile.isExempt().isCobweb(50L) || profile.isExempt().isCake() || profile.getVehicleData().isRiding(150L) || (profile.isExempt().isJoined(5000L) && movementData.isServerGround()) || profile.isExempt().isClimable(50L);
+
         final double deltaY = movementData.getDeltaY();
 
-        if (!exempt && !damageExempt && deltaY >= 0 && movementData.getAirTicks() == 1 && deltaY != MathUtils.JUMP) fail("emy=" + MathUtils.JUMP + " my=" + deltaY);
+        final boolean nearGroundExempt = movementData.getClientGroundTicks() <= 4 && MathUtils.decimalRound(deltaY, 8) == -0.07840000;
 
         if (!movementData.isOnGround()) {
 
             final double prediction = deltaY - PredictionEngine.getVerticalPrediction(profile, movementData.getLastDeltaY(), deltaY);
 
-            double prediction_limit = 1.9262653090336062E-14;
+            final boolean jumped = (!movementData.isOnGround() && movementData.isLastOnGround() && deltaY == MoveUtils.JUMP_MOTION) || (!movementData.isOnGround() && movementData.getLastNearWallTicks() > 0 && (deltaY == 0.40444491418477835 || deltaY == 0.33319999363422337));
 
-            if (profile.isExempt().isClimable(50L)) {
-
-                if (deltaY >= 0) prediction_limit = 0.08075199932861336; //TODO: might have slightly changed in newer version
-                else prediction_limit = 0.07540000438690189;
+            if (!nearGroundExempt && !exempt && prediction > 1.9262653090336062E-14 && !jumped) {
+                fail("pred=" + prediction + " my=" + deltaY);
+                debug("pred=" + prediction + " my=" + deltaY + " ngt=" + movementData.getClientGroundTicks() + " offset=" + (prediction - 1.9262653090336062E-14));
             }
-
-            //For falling on a ladder then air, then ladder...
-            if (profile.isExempt().isClimable(350L)) {
-
-                if (MathUtils.decimalRound(deltaY, 4) == 0.1176 || MathUtils.decimalRound(deltaY, 4) == -0.15) decreaseBufferBy(1);
-            }
-
-            //Handle first jump
-            boolean postExempt;
-            if (!exempt && !damageExempt && movementData.getAirTicks() == 1) {
-                if (deltaY != MathUtils.JUMP) {
-                    increaseBuffer();
-                    postExempt = false;
-                }
-                else {
-                    decreaseBufferBy(1);
-                    postExempt = true;
-                }
-            } else postExempt = false;
-
-
-            if (!exempt && !postExempt && prediction > prediction_limit && increaseBuffer() > 1) fail("pred=" + prediction + " my=" + deltaY);
 
         } else decreaseBufferBy(1);
     }
