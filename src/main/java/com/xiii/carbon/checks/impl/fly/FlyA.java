@@ -1,5 +1,6 @@
 package com.xiii.carbon.checks.impl.fly;
 
+import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.xiii.carbon.checks.annotation.Experimental;
 import com.xiii.carbon.checks.enums.CheckType;
 import com.xiii.carbon.checks.types.Check;
@@ -17,6 +18,8 @@ public class FlyA extends Check {
         super(profile, CheckType.FLY, "A", "Player is not following Minecraft's Y motion prediction.");
     }
 
+    public double predictionLimit = 1.9262653090336062E-14;
+
     @Override
     public void handle(final ClientPlayPacket clientPlayPacket) {
 
@@ -24,7 +27,7 @@ public class FlyA extends Check {
 
         final MovementData movementData = profile.getMovementData();
 
-        final boolean exempt = profile.isExempt().isFly() || profile.isExempt().isWater(150L) || profile.isExempt().isLava(150L) || profile.isExempt().isTrapdoor_door() || profile.isExempt().isCobweb(50L) || profile.isExempt().isCake() || profile.getVehicleData().isRiding(150L) || (profile.isExempt().isJoined(5000L) && movementData.isServerGround()) || profile.isExempt().isClimable(50L);
+        final boolean exempt = profile.isExempt().isFly() || profile.isExempt().isWater(150L) || profile.isExempt().isLava(150L) || profile.isExempt().isTrapdoor_door() || profile.isExempt().isCobweb(50L) || profile.isExempt().isCake() || profile.getVehicleData().isRiding(150L) || (profile.isExempt().isJoined(5000L) && movementData.isServerGround()) || profile.isExempt().isClimable(50L) || profile.isExempt().tookDamage(50L);
 
         final double deltaY = movementData.getDeltaY();
 
@@ -32,11 +35,11 @@ public class FlyA extends Check {
 
         if (!movementData.isOnGround()) {
 
-            final double prediction = deltaY - PredictionEngine.getVerticalPrediction(profile, movementData.getLastDeltaY(), deltaY);
+            final double prediction = deltaY - PredictionEngine.getVerticalPrediction(movementData.getLastDeltaY());
 
             final boolean jumped = (!movementData.isOnGround() && movementData.isLastOnGround() && deltaY == MoveUtils.JUMP_MOTION) || (!movementData.isOnGround() && movementData.getLastNearWallTicks() > 0 && (deltaY == 0.40444491418477835 || deltaY == 0.33319999363422337));
 
-            if (!nearGroundExempt && !exempt && prediction > 1.9262653090336062E-14 && !jumped) {
+            if (!nearGroundExempt && !exempt && prediction > predictionLimit && !jumped) {
                 fail("pred=" + prediction + " my=" + deltaY);
                 debug("pred=" + prediction + " my=" + deltaY + " ngt=" + movementData.getClientGroundTicks() + " offset=" + (prediction - 1.9262653090336062E-14));
             }

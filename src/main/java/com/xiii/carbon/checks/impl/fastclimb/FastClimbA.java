@@ -7,7 +7,6 @@ import com.xiii.carbon.managers.profile.Profile;
 import com.xiii.carbon.playerdata.data.impl.MovementData;
 import com.xiii.carbon.processors.packet.ClientPlayPacket;
 import com.xiii.carbon.processors.packet.ServerPlayPacket;
-import com.xiii.carbon.utils.MathUtils;
 import com.xiii.carbon.utils.MoveUtils;
 
 @Experimental
