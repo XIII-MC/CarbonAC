@@ -12,9 +12,11 @@ import com.xiii.carbon.processors.packet.ClientPlayPacket;
 import com.xiii.carbon.processors.packet.ServerPlayPacket;
 import com.xiii.carbon.utils.CollisionUtils;
 import com.xiii.carbon.utils.MoveUtils;
+import com.xiii.carbon.utils.TaskUtils;
 import com.xiii.carbon.utils.custom.CustomLocation;
 import com.xiii.carbon.utils.custom.Equipment;
 import com.xiii.carbon.utils.fastmath.FastMath;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -257,6 +259,9 @@ public class MovementData implements Data {
 
         //this.customSpeedProcessor.process();
 
+        //Near Ground
+
+
         //Setbacks
 
         if (this.nearGroundTicks > 1) this.setbackProcessor.process();
@@ -284,6 +289,8 @@ public class MovementData implements Data {
         this.lastServerGroundTicks = serverGround ? 0 : this.lastServerGroundTicks + 1;
 
         this.airTicks = onGround ? 0 : this.airTicks + 1;
+
+        this.lastNearGroundTicks = this.nearGroundTicks;
 
         //Equipment
 
