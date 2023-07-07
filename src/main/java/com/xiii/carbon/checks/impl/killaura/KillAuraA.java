@@ -1,13 +1,11 @@
 package com.xiii.carbon.checks.impl.killaura;
 
-import com.xiii.carbon.checks.annotation.Experimental;
 import com.xiii.carbon.checks.enums.CheckType;
 import com.xiii.carbon.checks.types.Check;
 import com.xiii.carbon.managers.profile.Profile;
 import com.xiii.carbon.processors.packet.ClientPlayPacket;
 import com.xiii.carbon.processors.packet.ServerPlayPacket;
 
-@Experimental
 public class KillAuraA extends Check {
     public KillAuraA(final Profile profile) {
         super(profile, CheckType.KILLAURA, "A", "Checks if player hits more entities than possible.");
