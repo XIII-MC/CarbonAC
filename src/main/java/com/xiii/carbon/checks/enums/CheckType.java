@@ -4,6 +4,7 @@ public enum CheckType {
 
     FLY("Fly", CheckCategory.MOVEMENT),
     FASTCLIMB("FastClimb", CheckCategory.MOVEMENT),
+    VELOCITY("Velocity", CheckCategory.COMBAT),
     SPEED("Speed", CheckCategory.MOVEMENT),
     KILLAURA("KillAura", CheckCategory.COMBAT),
     MOTION("Motion", CheckCategory.MOVEMENT);

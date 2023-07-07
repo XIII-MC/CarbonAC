@@ -5,6 +5,7 @@ import com.xiii.carbon.checks.impl.fastclimb.FastClimbA;
 import com.xiii.carbon.checks.impl.fly.FlyA;
 import com.xiii.carbon.checks.impl.killaura.KillAuraA;
 import com.xiii.carbon.checks.impl.killaura.KillAuraB;
+import com.xiii.carbon.checks.impl.velocity.VelocityA;
 import com.xiii.carbon.checks.types.Check;
 import com.xiii.carbon.managers.profile.Profile;
 import com.xiii.carbon.processors.packet.ClientPlayPacket;
@@ -49,6 +50,7 @@ public class CheckHolder {
                 new FlyA(this.profile),
                 new KillAuraA(this.profile),
                 new KillAuraB(this.profile),
+                new VelocityA(this.profile),
                 new FastClimbA(this.profile)
 
         );
