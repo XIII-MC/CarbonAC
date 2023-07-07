@@ -31,8 +31,6 @@ public class Exempt {
 
         final List<Material> nearbyBlocks = movementData.getNearbyBlocks();
 
-        final List<Material> middleBlocks = movementData.getMiddleBlocks();
-
         //Fly
         this.fly = movementData.getLastFlyingAbility() < (20*5); //5s
 
@@ -48,7 +46,7 @@ public class Exempt {
         this.lava = BetterStream.anyMatch(nearbyBlocks, mat -> mat.toString().contains("LAVA"));
 
         //Climables
-        this.climable = BetterStream.anyMatch(middleBlocks, mat -> mat.toString().contains("LADDER") || mat.toString().contains("VINE"));
+        this.climable = BetterStream.anyMatch(nearbyBlocks, mat -> mat.toString().contains("LADDER") || mat.toString().contains("VINE"));
 
         //Cobweb
         this.cobweb = BetterStream.anyMatch(nearbyBlocks, mat -> mat.toString().contains("COBWEB"));
