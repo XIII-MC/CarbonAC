@@ -73,6 +73,7 @@ public class Checks implements Initializer {
         KILLAURA("killaura", "", "KillAura Check"),
         KILLAURA_A("killaura.a", true, "Should we enable this module?"),
         KILLAURA_B("killaura.b", true, "Should we enable this module?"),
+        KILLAURA_C("killaura.c", true, "Should we enable this module?"),
         KILLAURA_MAX_VL("killaura.max_vl", 30, "The maximum violation amount a player needs to reach in order to get punished"),
         KILLAURA_COMMANDS("killaura.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
 
@@ -84,7 +85,12 @@ public class Checks implements Initializer {
         FASTCLIMB("fastclimb", "", "FastClimb Check"),
         FASTCLIMB_A("fastclimb.a", true, "Should we enable this module?"),
         FASTCLIMB_MAX_VL("fastclimb.max_vl", 30, "The maximum violation amount a player needs to reach in order tp get punished"),
-        FASTCLIMB_COMMANDS("fastclimb.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount");
+        FASTCLIMB_COMMANDS("fastclimb.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
+
+        TEST("test", "", "Test Check"),
+        TEST_A("test.a", true, "Should we enable this module?"),
+        TEST_MAX_VL("test.max_vl", 30, "The maximum violation amount a player needs to reach in order to get punished"),
+        TEST_COMMANDS("test.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount");
 
         private final String key;
         private final Object defaultValue;

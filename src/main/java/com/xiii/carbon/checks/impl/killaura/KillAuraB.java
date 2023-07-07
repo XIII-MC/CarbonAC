@@ -14,23 +14,27 @@ public class KillAuraB extends Check {
     }
 
     private long UseEntityPackets;
+    private boolean hit;
 
     @Override
     public void handle(final ClientPlayPacket clientPlayPacket) {
 
         if (clientPlayPacket.isAttack()) {
+            hit = true;
+            UseEntityPackets = System.currentTimeMillis();
+           // final long lastFlying = System.currentTimeMillis() - UseEntityPackets;
 
-            final long lastFlying = System.currentTimeMillis() - UseEntityPackets;
+           // if (lastFlying < 30L) {
 
-            if (lastFlying < 30L) {
-
-                if (increaseBuffer() > 1) fail("t=" + lastFlying);
-            } else decreaseBufferBy(1);
+             //   if (increaseBuffer() > 1) fail("t=" + lastFlying);
+          //  } else decreaseBufferBy(1);
 
         } else if (clientPlayPacket.isFlying()) {
-
-            UseEntityPackets = System.currentTimeMillis();
-            decreaseBufferBy(0.1);
+            final long lastFlying = System.currentTimeMillis() - UseEntityPackets;
+            if (hit)
+                debug("test = " + lastFlying);
+            hit = false;
+           // decreaseBufferBy(0.1);
         }
     }
 

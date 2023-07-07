@@ -7,6 +7,7 @@ public enum CheckType {
     VELOCITY("Velocity", CheckCategory.COMBAT),
     SPEED("Speed", CheckCategory.MOVEMENT),
     KILLAURA("KillAura", CheckCategory.COMBAT),
+    TEST("Test", CheckCategory.MOVEMENT),
     MOTION("Motion", CheckCategory.MOVEMENT);
 
     private final String checkName;

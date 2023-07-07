@@ -1,7 +1,9 @@
-package com.xiii.carbon.checks.impl.fly;
+package com.xiii.carbon.checks.impl.test;
 
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
-import com.xiii.carbon.checks.annotation.Experimental;
+import com.github.retrooper.packetevents.util.Vector3d;
+import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityVelocity;
+import com.xiii.carbon.checks.annotation.Testing;
 import com.xiii.carbon.checks.enums.CheckType;
 import com.xiii.carbon.checks.types.Check;
 import com.xiii.carbon.managers.profile.Profile;
@@ -11,13 +13,14 @@ import com.xiii.carbon.processors.packet.ClientPlayPacket;
 import com.xiii.carbon.processors.packet.ServerPlayPacket;
 import com.xiii.carbon.utils.MathUtils;
 import com.xiii.carbon.utils.MoveUtils;
+import com.xiii.carbon.utils.fastmath.FastMath;
 
-@Experimental
-public class FlyA extends Check {
-    public FlyA(final Profile profile) {
-        super(profile, CheckType.FLY, "A", "Player is not following Minecraft's Y motion prediction.");
+@Testing
+public class Test extends Check {
+
+    public Test(Profile profile) {
+        super(profile, CheckType.TEST, "A", "Test Check for the Developers.");
     }
-
     public double predictionLimit = 1.9262653090336062E-14;
 
     @Override
@@ -42,15 +45,19 @@ public class FlyA extends Check {
             final double prediction = deltaY - predictionOutput;
 
             final boolean jumped = (!movementData.isOnGround() && movementData.isLastOnGround() && deltaY == MoveUtils.JUMP_MOTION) || (!movementData.isOnGround() && movementData.getLastNearWallTicks() > 0 && (deltaY == 0.40444491418477835 || deltaY == 0.33319999363422337));
-
-            if (!nearGroundExempt && !exempt && prediction > predictionLimit && !jumped) {
-                fail("pred=" + predictionOutput + " my=" + deltaY);
-               // debug("pred=" + predictionOutput + " my=" + deltaY + " ngt=" + movementData.getClientGroundTicks() + " offset=" + (prediction - 1.9262653090336062E-14));
+            if (profile.getPlayer().getName().equalsIgnoreCase("Vagdedes2")) {
+               // debug(prediction + " " + deltaY);
             }
+            if (!nearGroundExempt && !exempt && prediction > predictionLimit && !jumped) {
 
+                fail("pred=" + predictionOutput + " my=" + deltaY);
+                // debug("pred=" + predictionOutput + " my=" + deltaY + " ngt=" + movementData.getClientGroundTicks() + " offset=" + (prediction - 1.9262653090336062E-14));
+            }
         } else decreaseBufferBy(1);
     }
 
     @Override
-    public void handle(final ServerPlayPacket serverPlayPacket) {}
+    public void handle(ServerPlayPacket serverPlayPacket) {
+
+    }
 }

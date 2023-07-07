@@ -50,4 +50,35 @@ public final class MoveUtils {
         //Your own method here
         return 0F;
     }
+
+    public static int getMaxVelocityTicks(final double velocityXZ, final double velocityY) {
+
+        int ticks = 0;
+
+        float horizontal = (float) Math.abs(velocityXZ);
+
+        do {
+
+            horizontal -= .02F; //SpeedInAir Value
+
+            horizontal *= MoveUtils.FRICTION; //Horizontal Friction
+
+            if (ticks++ > 30) break;
+
+        } while (horizontal > 0F);
+
+        float vertical = (float) Math.abs(velocityY);
+
+        do {
+
+            vertical -= .08F; //Falling acceleration
+
+            vertical *= MoveUtils.MOTION_Y_FRICTION; //Vertical Friction
+
+            if (ticks++ > 60) break;
+
+        } while (vertical > 0F);
+
+        return ticks;
+    }
 }

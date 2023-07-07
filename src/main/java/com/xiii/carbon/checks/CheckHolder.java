@@ -5,6 +5,8 @@ import com.xiii.carbon.checks.impl.fastclimb.FastClimbA;
 import com.xiii.carbon.checks.impl.fly.FlyA;
 import com.xiii.carbon.checks.impl.killaura.KillAuraA;
 import com.xiii.carbon.checks.impl.killaura.KillAuraB;
+import com.xiii.carbon.checks.impl.killaura.KillAuraC;
+import com.xiii.carbon.checks.impl.test.Test;
 import com.xiii.carbon.checks.impl.velocity.VelocityA;
 import com.xiii.carbon.checks.types.Check;
 import com.xiii.carbon.managers.profile.Profile;
@@ -46,10 +48,11 @@ public class CheckHolder {
          * Check initialization
          */
         addChecks(
-
+                //new Test(this.profile),
                 new FlyA(this.profile),
                 new KillAuraA(this.profile),
                 new KillAuraB(this.profile),
+                new KillAuraC(this.profile),
                 new VelocityA(this.profile),
                 new FastClimbA(this.profile)
 
