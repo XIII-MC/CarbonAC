@@ -6,6 +6,7 @@ import com.xiii.carbon.playerdata.data.impl.ActionData;
 import com.xiii.carbon.playerdata.data.impl.MovementData;
 import com.xiii.carbon.playerdata.data.impl.RotationData;
 import com.xiii.carbon.utils.CollisionUtils;
+import com.xiii.carbon.utils.MoveUtils;
 import com.xiii.carbon.utils.PlayerUtils;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -17,8 +18,8 @@ public final class PredictionEngine {
 
     final static boolean[] bools = new boolean[] {true, false};
 
-    public static double getVerticalPrediction(final Profile profile, final double lastMotionY, final double currMotionY) {
-        return ((lastMotionY - 0.08) * 0.9800000190734863) - (profile.isExempt().tookDamage(150L) ? currMotionY : 0);
+    public static double getVerticalPrediction(final double lastMotionY) {
+        return ((lastMotionY - 0.08) * MoveUtils.MOTION_Y_FRICTION);
     }
 
     public static double[] getHorizontalPrediction(final Profile profile) {
