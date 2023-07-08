@@ -38,7 +38,7 @@ public class Test extends Check {
 
         if (!movementData.isOnGround()) {
 
-            final boolean isBlockAbove = movementData.isBlockAbove() && Math.abs(0.20000004768372381 - deltaY) < predictionLimit;
+            final boolean isBlockAbove = movementData.isBlockAbove(3) && Math.abs(0.20000004768372381 - deltaY) < predictionLimit;
 
             final double predictionOutput = isBlockAbove ? deltaY : PredictionEngine.getVerticalPrediction(movementData.getLastDeltaY());
 

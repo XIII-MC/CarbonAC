@@ -352,7 +352,7 @@ public final class CollisionUtils {
         private final List<Material> blockMiddleTypes = new ArrayList<>();
         private final List<Material> blockBelowTypes = new ArrayList<>();
 
-        private boolean nearGround, isBlockAbove, isBlockMiddle, isBlockBelow, nearWaterLogged;
+        private boolean nearWaterLogged;
 
         private void handle(final Block block, final BlockPosition blockPosition, final NmsInstance nms) {
 
@@ -370,54 +370,42 @@ public final class CollisionUtils {
 
                 case MIDDLE:
 
-                    if (!this.isBlockMiddle) this.isBlockMiddle = true;
-
-                        /*
-                        Duplicate.
-                        */
+                    /*
+                    Duplicate.
+                    */
                     if (this.blockMiddleTypes.contains(type)) return;
 
-                        /*
-                        Add the block type.
-                        */
+                    /*
+                    Add the block type.
+                    */
                     this.blockMiddleTypes.add(type);
 
                     break;
 
                 case ABOVE:
 
-                    if (!this.isBlockAbove) this.isBlockAbove = true;
-
-                        /*
-                        Duplicate.
-                        */
+                    /*
+                    Duplicate.
+                    */
                     if (this.blockAboveTypes.contains(type)) return;
 
-                        /*
-                        Add the block type.
-                        */
+                    /*
+                    Add the block type.
+                    */
                     this.blockAboveTypes.add(type);
-
-                    break;
-
-                case UNDER:
-
-                    if (!this.nearGround) this.nearGround = true;
 
                     break;
 
                 case BELOW:
 
-                    if (!this.isBlockBelow) this.isBlockBelow = true;
-
-                        /*
-                        Duplicate.
-                        */
+                    /*
+                    Duplicate.
+                    */
                     if (this.blockBelowTypes.contains(type)) return;
 
-                        /*
-                        Add the block type.
-                        */
+                    /*
+                    Add the block type.
+                    */
                     this.blockBelowTypes.add(type);
 
                     break;
@@ -453,22 +441,6 @@ public final class CollisionUtils {
 
         public List<Material> getBlockBelowTypes() {
             return blockBelowTypes;
-        }
-
-        public boolean isNearGround() {
-            return nearGround;
-        }
-
-        public boolean hasBlockAbove() {
-            return isBlockAbove;
-        }
-
-        public boolean hasBlockBelow() {
-            return isBlockBelow;
-        }
-
-        public boolean hasBlockMiddle() {
-            return isBlockMiddle;
         }
 
         public boolean isNearWaterLogged() {

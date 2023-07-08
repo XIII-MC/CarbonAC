@@ -12,11 +12,9 @@ import com.xiii.carbon.processors.packet.ClientPlayPacket;
 import com.xiii.carbon.processors.packet.ServerPlayPacket;
 import com.xiii.carbon.utils.CollisionUtils;
 import com.xiii.carbon.utils.MoveUtils;
-import com.xiii.carbon.utils.TaskUtils;
 import com.xiii.carbon.utils.custom.CustomLocation;
 import com.xiii.carbon.utils.custom.Equipment;
 import com.xiii.carbon.utils.fastmath.FastMath;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -50,7 +48,8 @@ public class MovementData implements Data {
             lastUnloadedChunkTicks = 100,
             clientGroundTicks, lastNearWallTicks, airTicks,
             lastFrictionFactorUpdateTicks, lastNearEdgeTicks,
-            lastFlyingAbility = 10000;
+            lastFlyingAbility = 10000,
+            blockAboveTicks, blockMiddleTicks, blockBelowTicks;
 
     public MovementData(final Profile profile) {
         this.profile = profile;
@@ -209,11 +208,17 @@ public class MovementData implements Data {
 
         this.belowBlocks = nearbyBlocksResult.getBlockBelowTypes();
 
-        this.isBlockAbove = nearbyBlocksResult.hasBlockAbove();
+        this.isBlockAbove = nearbyBlocksResult.getBlockAboveTypes().size() > 1 || !nearbyBlocksResult.getBlockAboveTypes().contains(Material.AIR);
 
-        this.isBlockMiddle = nearbyBlocksResult.hasBlockMiddle();
+        this.isBlockMiddle = nearbyBlocksResult.getBlockMiddleTypes().size() > 1 || !nearbyBlocksResult.getBlockMiddleTypes().contains(Material.AIR);
 
-        this.isBlockBelow = nearbyBlocksResult.hasBlockBelow();
+        this.isBlockBelow = nearbyBlocksResult.getBlockBelowTypes().size() > 1 || !nearbyBlocksResult.getBlockBelowTypes().contains(Material.AIR);
+
+        this.blockAboveTicks = this.isBlockAbove ? 0 : this.blockAboveTicks + 1;
+
+        this.blockBelowTicks = this.isBlockBelow ? 0 : this.blockBelowTicks + 1;
+
+        this.blockMiddleTicks = this.isBlockMiddle ? 0 : this.blockMiddleTicks + 1;
     }
 
     private void processPlayerData() {
@@ -261,6 +266,7 @@ public class MovementData implements Data {
 
         //Near Ground
 
+        this.nearGroundTicks = !this.nearbyBlocks.get(0).equals(Material.AIR) ? this.nearGroundTicks + 1 : 0;
 
         //Setbacks
 
@@ -477,15 +483,27 @@ public class MovementData implements Data {
         return belowBlocks;
     }
 
-    public boolean isBlockAbove() {
-        return isBlockAbove;
+    public boolean isBlockAbove(final int ticks) {
+        return blockAboveTicks <= ticks;
     }
 
-    public boolean isBlockMiddle() {
-        return isBlockMiddle;
+    public boolean isBlockMiddle(final int ticks) {
+        return blockMiddleTicks <= ticks;
     }
 
-    public boolean isBlockBelow() {
-        return isBlockBelow;
+    public boolean isBlockBelow(final int ticks) {
+        return blockBelowTicks <= ticks;
+    }
+
+    public int getBlockAboveTicks() {
+        return blockAboveTicks;
+    }
+
+    public int getBlockMiddleTicks() {
+        return blockMiddleTicks;
+    }
+
+    public int getBlockBelowTicks() {
+        return blockBelowTicks;
     }
 }
