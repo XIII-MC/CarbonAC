@@ -42,9 +42,9 @@ public class MovementData implements Data {
 
     private List<Material> nearbyBlocks = null, aboveBlocks = null, middleBlocks = null, belowBlocks = new ArrayList<>();
 
-    private boolean onGround, lastOnGround, serverGround, lastServerGround, isBlockAbove, lastBlockAbove, isBlockMiddle, isBlockBelow;
+    private boolean onGround, lastOnGround, serverGround, lastServerGround, isBlockAbove, lastBlockAbove, isBlockMiddle, isBlockBelow, isBlockUnder;
 
-    private int flyTicks, serverGroundTicks, lastServerGroundTicks, nearGroundTicks, lastNearGroundTicks,
+    private int flyTicks, serverGroundTicks, lastServerGroundTicks, nearGroundTicks, lastNearGroundTicks, jumpedTicks,
             lastUnloadedChunkTicks = 100,
             clientGroundTicks, lastNearWallTicks, airTicks,
             lastFrictionFactorUpdateTicks, lastNearEdgeTicks,
@@ -80,7 +80,7 @@ public class MovementData implements Data {
                 this.onGround = move.isOnGround();
 
                 this.flyTicks = this.onGround ? 0 : this.flyTicks + 1;
-                this.clientGroundTicks = this.onGround ? this.clientGroundTicks + 1 : 0;
+                this.clientGroundTicks = this.onGround ? 0 : this.clientGroundTicks + 1;
 
                 this.lastLocation = this.location;
                 this.location = new CustomLocation(
@@ -105,7 +105,7 @@ public class MovementData implements Data {
                 this.onGround = posLook.isOnGround();
 
                 this.flyTicks = this.onGround ? 0 : this.flyTicks + 1;
-                this.clientGroundTicks = this.onGround ? this.clientGroundTicks + 1 : 0;
+                this.clientGroundTicks = this.onGround ? 0 : this.clientGroundTicks + 1;
 
                 this.lastLocation = this.location;
                 this.location = new CustomLocation(
@@ -127,7 +127,7 @@ public class MovementData implements Data {
                 this.onGround = look.isOnGround();
 
                 this.flyTicks = this.onGround ? 0 : this.flyTicks + 1;
-                this.clientGroundTicks = this.onGround ? this.clientGroundTicks + 1 : 0;
+                this.clientGroundTicks = this.onGround ? 0 : this.clientGroundTicks + 1;
 
                 this.lastLocation = this.location;
                 this.location = new CustomLocation(
@@ -196,14 +196,15 @@ public class MovementData implements Data {
         final CollisionUtils.NearbyBlocksResult nearbyBlocksResult = CollisionUtils.getNearbyBlocks(this.location, false);
 
         /*
+        Get the block below the player.
+         */
+        this.isBlockUnder = CollisionUtils.hasBlockUnder(this.location, new CustomLocation(this.location.getWorld(), this.location.getX(), this.location.getY() - 0.1, this.location.getZ()));
+
+        /*
         Handle collisions
         NOTE: You should ALWAYS use NMS if you plan on supporting 1.9+
         For a production server, DO NOT use spigot's api. It's slow. (Especially for Blocks, Chunks, Materials)
          */
-
-        this.lastBlockAbove = this.isBlockAbove;
-
-        this.lastBlockAboveTicks = this.lastBlockAbove ? 0 : this.lastBlockAboveTicks + 1;
 
         this.nearbyBlocks = nearbyBlocksResult.getBlockTypes();
 
@@ -219,7 +220,11 @@ public class MovementData implements Data {
 
         this.isBlockBelow = nearbyBlocksResult.getBlockBelowTypes().size() > 1 || !nearbyBlocksResult.getBlockBelowTypes().contains(Material.AIR);
 
+        this.lastBlockAbove = this.isBlockAbove;
+
         this.blockAboveTicks = this.isBlockAbove ? 0 : this.blockAboveTicks + 1;
+
+        this.lastBlockAboveTicks = this.lastBlockAbove ? 0 : this.lastBlockAboveTicks + 1;
 
         this.blockBelowTicks = this.isBlockBelow ? 0 : this.blockBelowTicks + 1;
 
@@ -295,9 +300,9 @@ public class MovementData implements Data {
 
         this.serverGround = serverGround;
 
-        this.serverGroundTicks = serverGround ? this.serverGroundTicks + 1 : 0;
+        this.serverGroundTicks = serverGround ? 0 : this.serverGroundTicks + 1;
 
-        this.lastServerGroundTicks = serverGround ? 0 : this.lastServerGroundTicks + 1;
+        this.lastServerGroundTicks = serverGround ? this.serverGroundTicks + 1 : 0;
 
         this.airTicks = onGround ? 0 : this.airTicks + 1;
 
@@ -322,6 +327,10 @@ public class MovementData implements Data {
         //Ghost Blocks
 
         //this.ghostBlockProcessor.process();
+
+        //Jump
+
+        this.jumpedTicks = ((this.deltaY > 0 && this.lastDeltaY % (1D / 64) == 0 && !this.isOnGround()) && !(this.deltaY % 0.015625 == 0) && (this.lastDeltaY % 0.015625 == 0)) ? 0 : this.jumpedTicks + 1;
     }
 
     public int getLastNearEdgeTicks() {
@@ -472,6 +481,14 @@ public class MovementData implements Data {
         return lastNearGroundTicks;
     }
 
+    public boolean isJumpedTicks(final int ticks) {
+        return jumpedTicks <= ticks;
+    }
+
+    public int getJumpedTicks() {
+        return jumpedTicks;
+    }
+
     public List<Material> getNearbyBlocks() {
         return nearbyBlocks;
     }
@@ -502,6 +519,10 @@ public class MovementData implements Data {
 
     public boolean isBlockBelow(final int ticks) {
         return blockBelowTicks <= ticks;
+    }
+
+    public boolean isBlockUnder() {
+        return isBlockUnder;
     }
 
     public int getBlockAboveTicks() {

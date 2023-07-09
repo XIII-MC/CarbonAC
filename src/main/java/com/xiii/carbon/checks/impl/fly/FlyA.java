@@ -38,11 +38,11 @@ public class FlyA extends Check {
 
             final double prediction = deltaY - (blockAbove ? deltaY : PredictionEngine.getVerticalPrediction(movementData.getLastDeltaY()));
 
-            final boolean jumped = (!movementData.isOnGround() && movementData.isLastOnGround() && deltaY == MoveUtils.JUMP_MOTION) || (!movementData.isOnGround() && movementData.getLastNearWallTicks() > 0 && (deltaY == 0.40444491418477835 || deltaY == 0.33319999363422337));
+            final boolean jumped = (!movementData.isOnGround() && movementData.isLastOnGround() && deltaY == MoveUtils.JUMP_MOTION) || ((movementData.getClientGroundTicks() <= 3) && movementData.getLastNearWallTicks() <= 0 && (MathUtils.decimalRound(deltaY, 14) == 0.40444491418478 || MathUtils.decimalRound(deltaY, 14) == 0.33319999363422));
 
             if (!nearGroundExempt && !exempt && prediction > predictionLimit && !jumped) {
                 fail("pred=" + prediction + " my=" + deltaY);
-                debug("dy=" + deltaY + " ba=" + movementData.getBlockAboveTicks() + " ab=" + movementData.getAboveBlocks());
+                debug("DC-dy=" + MathUtils.decimalRound(deltaY, 14) + " g=" + movementData.isBlockUnder());
             }
         }
     }
