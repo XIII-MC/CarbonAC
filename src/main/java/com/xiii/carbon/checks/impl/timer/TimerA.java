@@ -12,19 +12,18 @@ import com.xiii.carbon.utils.SampleList;
 
 @Experimental
 public class TimerA extends Check {
-
-    private long lastFlying = System.currentTimeMillis(), sinceWasZero = System.currentTimeMillis();
-    private SampleList<Double> ratioList = new SampleList<>(20, false);
-    private boolean wasZero;
-    private double balance;
-
-
-    public TimerA(Profile profile) {
+    public TimerA(final Profile profile) {
         super(profile, CheckType.TIMER, "A", "Checks if a player sends more packets.");
     }
 
+    private long lastFlying = System.currentTimeMillis(), sinceWasZero = System.currentTimeMillis();
+    private final SampleList<Double> ratioList = new SampleList<>(20, false);
+    private boolean wasZero;
+    private double balance;
+
     @Override
-    public void handle(ClientPlayPacket clientPlayPacket) {
+    public void handle(final ClientPlayPacket clientPlayPacket) {
+
         if (clientPlayPacket.isFlying()) {
 
             final boolean exempt = profile.isExempt().isJoined(2000);
@@ -40,7 +39,6 @@ public class TimerA extends Check {
 
                 wasZero = true;
                 sinceWasZero = now;
-
             } else {
 
                 if (wasZero && balance < -300 && now - sinceWasZero > 5000) {
@@ -64,7 +62,6 @@ public class TimerA extends Check {
                     fail("b=" + balance);
 
                 balance = -2;
-
             } else decreaseBufferBy(0.05);
 
             lastFlying = now;
@@ -72,8 +69,10 @@ public class TimerA extends Check {
     }
 
     @Override
-    public void handle(ServerPlayPacket serverPlayPacket) {
+    public void handle(final ServerPlayPacket serverPlayPacket) {
+
         if (serverPlayPacket.is(PacketType.Play.Server.ENTITY_TELEPORT) || serverPlayPacket.is(PacketType.Play.Server.PLAYER_POSITION_AND_LOOK)) {
+
             balance -= 50;
         }
     }
