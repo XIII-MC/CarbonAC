@@ -25,13 +25,19 @@ public class TeleportData implements Data {
     @Override
     public void process(final ServerPlayPacket serverPlayPacket) {
 
-        if (serverPlayPacket.is(PacketType.Play.Server.ENTITY_TELEPORT) || serverPlayPacket.is(PacketType.Play.Server.PLAYER_POSITION_AND_LOOK)) {
+        if (serverPlayPacket.is(PacketType.Play.Server.PLAYER_POSITION_AND_LOOK)) {
 
             tpX = serverPlayPacket.getPlayerPositionAndLookWrapper().getX();
             tpY = serverPlayPacket.getPlayerPositionAndLookWrapper().getY();
             tpZ = serverPlayPacket.getPlayerPositionAndLookWrapper().getZ();
             tpPitch = serverPlayPacket.getPlayerPositionAndLookWrapper().getPitch();
             tpYaw = serverPlayPacket.getPlayerPositionAndLookWrapper().getYaw();
+
+            this.teleportTicks = 0;
+            this.lastTeleport = System.currentTimeMillis();
+        }
+
+        if (serverPlayPacket.is(PacketType.Play.Server.ENTITY_TELEPORT)) {
 
             this.teleportTicks = 0;
             this.lastTeleport = System.currentTimeMillis();
