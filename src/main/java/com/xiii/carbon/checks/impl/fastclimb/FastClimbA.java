@@ -24,12 +24,22 @@ public class FastClimbA extends Check {
 
             final double deltaY = movementData.getDeltaY();
 
-            if (profile.isExempt().isClimable(50L)) {
+            final boolean lowBlock = movementData.getClientGroundTicks() <= 1 && deltaY == 0.5 && movementData.isBlockBelow(1);
+
+            final boolean exempt = profile.isExempt().isFly();
+
+            if (!exempt && profile.isExempt().isClimable(50L)) {
 
                 if (movementData.getAirTicks() > 4) {
-                    if (deltaY > 0.1177) fail("deltaY: " + deltaY);
+                    if (deltaY > 0.1177) {
+                        fail("deltaY: " + deltaY);
+                        debug("FastClimb A - dY=" + deltaY + " aT=" + movementData.getAirTicks() + " lB=" + lowBlock);
+                    }
                 } else {
-                    if (deltaY > MoveUtils.JUMP_MOTION) fail("Exceeded maximum motion: " + deltaY);
+                    if (deltaY > (MoveUtils.JUMP_MOTION + (lowBlock ? 0.5 : 0))) {
+                        fail("Exceeded maximum motion: " + deltaY);
+                        debug("FastClimb A MAX - dY=" + deltaY + " aT=" + movementData.getAirTicks() + " lB=" + lowBlock + " bbT=" + movementData.getBlockBelowTicks());
+                    }
                 }
             }
         }
