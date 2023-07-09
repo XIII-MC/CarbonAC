@@ -36,7 +36,7 @@ public class FlyA extends Check {
 
             final boolean blockAbove = (movementData.isBlockAbove(1) || movementData.lastBlockAbove(1)) &&  Math.abs(0.2000000476837 - MathUtils.decimalRound(deltaY, 13)) < predictionLimit;
 
-            final boolean jumpGlitch = ((movementData.getClientGroundTicks() <= 1 || ((movementData.getServerGroundTicks() == 8 || movementData.getServerGroundTicks() == 9 || movementData.getServerGroundTicks() == 10) && (movementData.isBlockBelow(1) || movementData.isBlockFoot(1)))) && movementData.getLastNearWallTicks() <= 0 && (MathUtils.decimalRound(deltaY, 14) == 0.40444491418478 || MathUtils.decimalRound(deltaY, 14) == 0.33319999363422));
+            final boolean jumpGlitch = ((movementData.getClientGroundTicks() <= 1 || ((movementData.getClientGroundTicks() <= 3 || movementData.getServerGroundTicks() == 8 || movementData.getServerGroundTicks() == 9 || movementData.getServerGroundTicks() == 10 || movementData.getServerGroundTicks() == 14 || movementData.getServerGroundTicks() == 15) && (movementData.isBlockBelow(1) || movementData.isBlockFoot(1)))) && movementData.getLastNearWallTicks() <= 10 && (MathUtils.decimalRound(deltaY, 2) == 0.40 || MathUtils.decimalRound(deltaY, 2) == 0.33 || MathUtils.decimalRound(deltaY, 2) == -0.09 || MathUtils.decimalRound(deltaY, 2) == -0.15));
 
             final boolean jumpLowBlock = movementData.getClientGroundTicks() == 1 && deltaY == 0.5 && movementData.isBlockBelow(1);
 
@@ -46,7 +46,7 @@ public class FlyA extends Check {
 
             if (!nearGroundExempt && !exempt && prediction > predictionLimit && !jumped) {
                 fail("pred=" + prediction + " my=" + deltaY);
-                debug("DR-dy=" + MathUtils.decimalRound(deltaY, 14) + " g=" + movementData.getClientGroundTicks() + "sg=" + movementData.getServerGroundTicks() + " bbT=" + movementData.getBlockBelowTicks() + " fbT=" + movementData.getBlockFootTicks());
+                debug("DR-dy=" + MathUtils.decimalRound(deltaY, 14) + " g=" + movementData.getClientGroundTicks() + " sg=" + movementData.getServerGroundTicks() + " bbT=" + movementData.getBlockBelowTicks() + " fbT=" + movementData.getBlockFootTicks() + " NWT=" + movementData.getLastNearWallTicks());
             }
         }
     }
