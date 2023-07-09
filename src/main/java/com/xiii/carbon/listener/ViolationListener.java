@@ -9,11 +9,17 @@ import com.xiii.carbon.managers.profile.Profile;
 import com.xiii.carbon.tasks.TickTask;
 import com.xiii.carbon.utils.JsonBuilder;
 import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+
+import java.util.UUID;
 
 public class ViolationListener implements Listener {
 
@@ -63,7 +69,6 @@ public class ViolationListener implements Listener {
             //));
             // TODO: Log manager (disabled for now not needed)
 
-            //We're sending the alerts by using the server chat packet, Making this much more efficient.
             alerts:
             {
 
@@ -77,14 +82,24 @@ public class ViolationListener implements Listener {
                         .replace("%check%", check)
                         .replace("%vl%", String.valueOf(vl));
 
+                /*
                 final JsonBuilder jsonBuilder = new JsonBuilder(alertMessage)
                         .setHoverEvent(JsonBuilder.HoverEventType.SHOW_TEXT, hoverMessage)
                         .setClickEvent(JsonBuilder.ClickEventType.RUN_COMMAND, "/tp " + playerName)
                         .buildText();
+                 Can't use since the client doesn't receive the legacy packet (S1.8, C1.8)
+                 */
 
-                jsonBuilder.sendMessage(this.plugin.getAlertManager().getPlayersWithAlerts());
-                this.plugin.getAlertManager().getPlayersWithAlerts().forEach(uuid -> this.plugin.getProfileManager().getProfile(uuid).getPlayer().sendMessage(alertMessage));
-                //TODO: Packet not working on 1.8?
+                final TextComponent mainComponent = new TextComponent(alertMessage);
+                mainComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverMessage).create()));
+                mainComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + playerName));
+
+                for (final UUID uuid : this.plugin.getAlertManager().getPlayersWithAlerts()) {
+
+                    final Player player = Bukkit.getPlayer(uuid);
+
+                    player.spigot().sendMessage(mainComponent);
+                }
 
                 if (!Config.Setting.CONSOLE_ALERT.getBoolean()) break alerts;
 
