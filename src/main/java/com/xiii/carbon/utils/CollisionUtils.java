@@ -231,7 +231,7 @@ public final class CollisionUtils {
         final double locationY = location.getY();
         final double locationZ = location.getZ();
 
-        final double aboveY = locationY + 1.9D;
+        final double aboveY = locationY + 2.0D; // locationY + 1.9D
         final double middleY = locationY + 1D;
         final double underY = locationY - .500001D;
 

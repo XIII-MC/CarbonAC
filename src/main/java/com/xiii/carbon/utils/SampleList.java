@@ -1,5 +1,6 @@
 package com.xiii.carbon.utils;
 
+import java.util.Collection;
 import java.util.LinkedList;
 
 public final class SampleList<T> extends LinkedList<T> {
@@ -35,4 +36,5 @@ public final class SampleList<T> extends LinkedList<T> {
     public boolean isCollected() {
         return super.size() >= this.sampleSize;
     }
+
 }

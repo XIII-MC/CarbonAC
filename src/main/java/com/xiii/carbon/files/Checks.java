@@ -70,6 +70,16 @@ public class Checks implements Initializer {
         FLY_MAX_VL("fly.max_vl", 30, "The maximum violation amount a player needs to reach in order to get punished"),
         FLY_COMMANDS("fly.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
 
+        SPEED("speed", "", "Speed Check"),
+        SPEED_A("speed.a", true, "Should we enable this module?"),
+        SPEED_MAX_VL("speed.max_vl", 30, "The maximum violation amount a player needs to reach in order to get punished"),
+        SPEED_COMMANDS("speed.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
+
+        TIMER("timer", "", "Timer Check"),
+        TIMER_A("timer.a", true, "Should we enable this module?"),
+        TIMER_MAX_VL("timer.max_vl", 30, "The maximum violation amount a player needs to reach in order to get punished"),
+        TIMER_COMMANDS("timer.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
+
         KILLAURA("killaura", "", "KillAura Check"),
         KILLAURA_A("killaura.a", true, "Should we enable this module?"),
         KILLAURA_B("killaura.b", true, "Should we enable this module?"),

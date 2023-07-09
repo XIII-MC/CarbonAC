@@ -42,14 +42,14 @@ public class MovementData implements Data {
 
     private List<Material> nearbyBlocks = null, aboveBlocks = null, middleBlocks = null, belowBlocks = new ArrayList<>();
 
-    private boolean onGround, lastOnGround, serverGround, lastServerGround, isBlockAbove, isBlockMiddle, isBlockBelow;
+    private boolean onGround, lastOnGround, serverGround, lastServerGround, isBlockAbove, lastBlockAbove, isBlockMiddle, isBlockBelow;
 
     private int flyTicks, serverGroundTicks, lastServerGroundTicks, nearGroundTicks, lastNearGroundTicks,
             lastUnloadedChunkTicks = 100,
             clientGroundTicks, lastNearWallTicks, airTicks,
             lastFrictionFactorUpdateTicks, lastNearEdgeTicks,
             lastFlyingAbility = 10000,
-            blockAboveTicks, blockMiddleTicks, blockBelowTicks;
+            blockAboveTicks, lastBlockAboveTicks, blockMiddleTicks, blockBelowTicks;
 
     public MovementData(final Profile profile) {
         this.profile = profile;
@@ -200,6 +200,11 @@ public class MovementData implements Data {
         NOTE: You should ALWAYS use NMS if you plan on supporting 1.9+
         For a production server, DO NOT use spigot's api. It's slow. (Especially for Blocks, Chunks, Materials)
          */
+
+        this.lastBlockAbove = this.isBlockAbove;
+
+        this.lastBlockAboveTicks = this.lastBlockAbove ? 0 : this.lastBlockAboveTicks + 1;
+
         this.nearbyBlocks = nearbyBlocksResult.getBlockTypes();
 
         this.aboveBlocks = nearbyBlocksResult.getBlockAboveTypes();
@@ -485,6 +490,10 @@ public class MovementData implements Data {
 
     public boolean isBlockAbove(final int ticks) {
         return blockAboveTicks <= ticks;
+    }
+
+    public boolean lastBlockAbove(final int ticks) {
+        return lastBlockAboveTicks <= ticks;
     }
 
     public boolean isBlockMiddle(final int ticks) {
