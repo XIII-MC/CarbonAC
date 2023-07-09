@@ -1,5 +1,6 @@
 package com.xiii.carbon.checks.impl.timer;
 
+import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.xiii.carbon.checks.annotation.Experimental;
 import com.xiii.carbon.checks.enums.CheckType;
 import com.xiii.carbon.checks.types.Check;
@@ -71,5 +72,9 @@ public class TimerA extends Check {
     }
 
     @Override
-    public void handle(ServerPlayPacket serverPlayPacket) {}
+    public void handle(ServerPlayPacket serverPlayPacket) {
+        if (serverPlayPacket.is(PacketType.Play.Server.ENTITY_TELEPORT) || serverPlayPacket.is(PacketType.Play.Server.PLAYER_POSITION_AND_LOOK)) {
+            balance -= 50;
+        }
+    }
 }

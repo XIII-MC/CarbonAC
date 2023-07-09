@@ -36,9 +36,9 @@ public class FlyA extends Check {
 
             final boolean blockAbove = (movementData.isBlockAbove(1) || movementData.lastBlockAbove(1)) &&  Math.abs(0.2000000476837 - MathUtils.decimalRound(deltaY, 13)) < predictionLimit;
 
-            final double prediction = deltaY - (blockAbove ? deltaY : PredictionEngine.getVerticalPrediction(movementData.getLastDeltaY()));
-
             final boolean jumped = (!movementData.isOnGround() && movementData.isLastOnGround() && deltaY == MoveUtils.JUMP_MOTION) || ((movementData.getClientGroundTicks() <= 3) && movementData.getLastNearWallTicks() <= 0 && (MathUtils.decimalRound(deltaY, 14) == 0.40444491418478 || MathUtils.decimalRound(deltaY, 14) == 0.33319999363422));
+
+            final double prediction = deltaY - (blockAbove ? deltaY : PredictionEngine.getVerticalPrediction(movementData.getLastDeltaY()));
 
             if (!nearGroundExempt && !exempt && prediction > predictionLimit && !jumped) {
                 fail("pred=" + prediction + " my=" + deltaY);
