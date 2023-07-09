@@ -8,6 +8,7 @@ import com.xiii.carbon.playerdata.data.impl.MovementData;
 import com.xiii.carbon.processors.PredictionEngine;
 import com.xiii.carbon.processors.packet.ClientPlayPacket;
 import com.xiii.carbon.processors.packet.ServerPlayPacket;
+import com.xiii.carbon.utils.BetterStream;
 import com.xiii.carbon.utils.MathUtils;
 import com.xiii.carbon.utils.MoveUtils;
 
@@ -44,9 +45,13 @@ public class FlyA extends Check {
 
             final double prediction = deltaY - (blockAbove ? deltaY : PredictionEngine.getVerticalPrediction(movementData.getLastDeltaY()));
 
-            if (!nearGroundExempt && !exempt && prediction > predictionLimit && !jumped) {
+            final boolean fix = !(((movementData.getBelowBlocks().size() > 1 || !BetterStream.anyMatch(movementData.getBelowBlocks(), material -> material.toString().equalsIgnoreCase("AIR"))) && !movementData.getBelowBlocks().isEmpty()));
+
+            if (!nearGroundExempt && !exempt && prediction > predictionLimit && !jumped && fix) {
                 fail("pred=" + prediction + " my=" + deltaY);
-                debug("DR-dy=" + MathUtils.decimalRound(deltaY, 14) + " g=" + movementData.getClientGroundTicks() + " sg=" + movementData.getServerGroundTicks() + " bbT=" + movementData.getBlockBelowTicks() + " fbT=" + movementData.getBlockFootTicks() + " NWT=" + movementData.getLastNearWallTicks());
+                //debug((prediction - movementData.getAccelY()) + " " + movementData.getLastServerGroundTicks() + " " +   + " " + movementData.getBelowBlocks());
+               // debug("DR-dy=" + MathUtils.decimalRound(deltaY, 14) + " g=" + movementData.getClientGroundTicks() + " sg=" + movementData.getServerGroundTicks() + " bbT=" + movementData.getBlockBelowTicks() + " fbT=" + movementData.getBlockFootTicks() + " NWT=" + movementData.getLastNearWallTicks());
+               // debug("" + blockAbove + " " + prediction + " " + movementData.getAirTicks() + " " + movementData.getAccelY() + " " + movementData.getClientGroundTicks() + " " + movementData.getBlockFootTicks());
             }
         }
     }
