@@ -36,13 +36,17 @@ public class FlyA extends Check {
 
             final boolean blockAbove = (movementData.isBlockAbove(1) || movementData.lastBlockAbove(1)) &&  Math.abs(0.2000000476837 - MathUtils.decimalRound(deltaY, 13)) < predictionLimit;
 
-            final boolean jumped = (!movementData.isOnGround() && movementData.isLastOnGround() && deltaY == MoveUtils.JUMP_MOTION) || ((movementData.getClientGroundTicks() <= 3) && movementData.getLastNearWallTicks() <= 0 && (MathUtils.decimalRound(deltaY, 14) == 0.40444491418478 || MathUtils.decimalRound(deltaY, 14) == 0.33319999363422));
+            final boolean jumpGlitch = ((movementData.getClientGroundTicks() <= 1 || ((movementData.getServerGroundTicks() == 8 || movementData.getServerGroundTicks() == 9 || movementData.getServerGroundTicks() == 10) && (movementData.isBlockBelow(1) || movementData.isBlockFoot(1)))) && movementData.getLastNearWallTicks() <= 0 && (MathUtils.decimalRound(deltaY, 14) == 0.40444491418478 || MathUtils.decimalRound(deltaY, 14) == 0.33319999363422));
+
+            final boolean jumpLowBlock = movementData.getClientGroundTicks() == 1 && deltaY == 0.5 && movementData.isBlockBelow(1);
+
+            final boolean jumped = (!movementData.isOnGround() && movementData.isLastOnGround() && deltaY == MoveUtils.JUMP_MOTION) || jumpGlitch || jumpLowBlock;
 
             final double prediction = deltaY - (blockAbove ? deltaY : PredictionEngine.getVerticalPrediction(movementData.getLastDeltaY()));
 
             if (!nearGroundExempt && !exempt && prediction > predictionLimit && !jumped) {
                 fail("pred=" + prediction + " my=" + deltaY);
-                debug("DC-dy=" + MathUtils.decimalRound(deltaY, 14) + " g=" + movementData.isBlockUnder());
+                debug("DR-dy=" + MathUtils.decimalRound(deltaY, 14) + " g=" + movementData.getClientGroundTicks() + "sg=" + movementData.getServerGroundTicks() + " bbT=" + movementData.getBlockBelowTicks() + " fbT=" + movementData.getBlockFootTicks());
             }
         }
     }

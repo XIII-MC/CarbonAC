@@ -332,6 +332,22 @@ public final class CollisionUtils {
                         blockPositions.add(below);
                     }
                 }
+                foot:
+                {
+
+                    cloned.setY(underY - 1);
+
+                    final Block foot = getBlock(cloned, async);
+
+                    if (foot == null) break foot;
+
+                    if (!blockPositions.contains(foot)) {
+
+                        result.handle(foot, BlockPosition.FOOT, nms);
+
+                        blockPositions.add(foot);
+                    }
+                }
             }
         }
 
@@ -342,7 +358,8 @@ public final class CollisionUtils {
         ABOVE,
         MIDDLE,
         BELOW,
-        UNDER
+        UNDER,
+        FOOT
     }
 
     public static class NearbyBlocksResult {
@@ -351,6 +368,7 @@ public final class CollisionUtils {
         private final List<Material> blockAboveTypes = new ArrayList<>();
         private final List<Material> blockMiddleTypes = new ArrayList<>();
         private final List<Material> blockBelowTypes = new ArrayList<>();
+        private final List<Material> blockFootTypes = new ArrayList<>();
 
         private boolean nearWaterLogged;
 
@@ -409,6 +427,20 @@ public final class CollisionUtils {
                     this.blockBelowTypes.add(type);
 
                     break;
+
+                case FOOT:
+
+                    /*
+                    Duplicate.
+                    */
+                    if (this.blockFootTypes.contains(type)) return;
+
+                    /*
+                    Add the block type.
+                    */
+                    this.blockFootTypes.add(type);
+
+                    break;
             }
 
             /*
@@ -441,6 +473,10 @@ public final class CollisionUtils {
 
         public List<Material> getBlockBelowTypes() {
             return blockBelowTypes;
+        }
+
+        public List<Material> getBlockFootTypes() {
+            return blockFootTypes;
         }
 
         public boolean isNearWaterLogged() {

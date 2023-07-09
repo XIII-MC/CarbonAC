@@ -40,16 +40,16 @@ public class MovementData implements Data {
     private CustomLocation location;
     private CustomLocation lastLocation;
 
-    private List<Material> nearbyBlocks = null, aboveBlocks = null, middleBlocks = null, belowBlocks = new ArrayList<>();
+    private List<Material> nearbyBlocks = null, aboveBlocks = null, middleBlocks = null, belowBlocks = null, footBlocks = new ArrayList<>();
 
-    private boolean onGround, lastOnGround, serverGround, lastServerGround, isBlockAbove, lastBlockAbove, isBlockMiddle, isBlockBelow, isBlockUnder;
+    private boolean onGround, lastOnGround, serverGround, lastServerGround, isBlockAbove, lastBlockAbove, isBlockMiddle, isBlockBelow, isBlockUnder, isBlockFoot;
 
     private int flyTicks, serverGroundTicks, lastServerGroundTicks, nearGroundTicks, lastNearGroundTicks, jumpedTicks,
             lastUnloadedChunkTicks = 100,
             clientGroundTicks, lastNearWallTicks, airTicks,
             lastFrictionFactorUpdateTicks, lastNearEdgeTicks,
             lastFlyingAbility = 10000,
-            blockAboveTicks, lastBlockAboveTicks, blockMiddleTicks, blockBelowTicks;
+            blockAboveTicks, lastBlockAboveTicks, blockMiddleTicks, blockBelowTicks, blockUnderTicks, blockFootTicks;
 
     public MovementData(final Profile profile) {
         this.profile = profile;
@@ -214,11 +214,15 @@ public class MovementData implements Data {
 
         this.belowBlocks = nearbyBlocksResult.getBlockBelowTypes();
 
+        this.footBlocks = nearbyBlocksResult.getBlockFootTypes();
+
         this.isBlockAbove = nearbyBlocksResult.getBlockAboveTypes().size() > 1 || !nearbyBlocksResult.getBlockAboveTypes().contains(Material.AIR);
 
         this.isBlockMiddle = nearbyBlocksResult.getBlockMiddleTypes().size() > 1 || !nearbyBlocksResult.getBlockMiddleTypes().contains(Material.AIR);
 
         this.isBlockBelow = nearbyBlocksResult.getBlockBelowTypes().size() > 1 || !nearbyBlocksResult.getBlockBelowTypes().contains(Material.AIR);
+
+        this.isBlockFoot = nearbyBlocksResult.getBlockFootTypes().size() > 1  || !nearbyBlocksResult.getBlockFootTypes().contains(Material.AIR);
 
         this.lastBlockAbove = this.isBlockAbove;
 
@@ -226,9 +230,11 @@ public class MovementData implements Data {
 
         this.lastBlockAboveTicks = this.lastBlockAbove ? 0 : this.lastBlockAboveTicks + 1;
 
+        this.blockMiddleTicks = this.isBlockMiddle ? 0 : this.blockMiddleTicks + 1;
+
         this.blockBelowTicks = this.isBlockBelow ? 0 : this.blockBelowTicks + 1;
 
-        this.blockMiddleTicks = this.isBlockMiddle ? 0 : this.blockMiddleTicks + 1;
+        this.blockFootTicks = this.isBlockFoot ? 0 : this.blockFootTicks + 1;
     }
 
     private void processPlayerData() {
@@ -505,6 +511,10 @@ public class MovementData implements Data {
         return belowBlocks;
     }
 
+    public List<Material> getFootBlocks() {
+        return footBlocks;
+    }
+
     public boolean isBlockAbove(final int ticks) {
         return blockAboveTicks <= ticks;
     }
@@ -521,8 +531,12 @@ public class MovementData implements Data {
         return blockBelowTicks <= ticks;
     }
 
-    public boolean isBlockUnder() {
-        return isBlockUnder;
+    public boolean isBlockUnder(final int ticks) {
+        return blockUnderTicks <= ticks;
+    }
+
+    public boolean isBlockFoot(final int ticks) {
+        return blockFootTicks <= ticks;
     }
 
     public int getBlockAboveTicks() {
@@ -535,5 +549,9 @@ public class MovementData implements Data {
 
     public int getBlockBelowTicks() {
         return blockBelowTicks;
+    }
+
+    public int getBlockFootTicks() {
+        return blockFootTicks;
     }
 }
