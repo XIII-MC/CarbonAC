@@ -4,6 +4,7 @@ import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import com.xiii.carbon.managers.profile.Profile;
 import com.xiii.carbon.playerdata.data.impl.CombatData;
 import com.xiii.carbon.playerdata.data.impl.MovementData;
+import com.xiii.carbon.playerdata.data.impl.TeleportData;
 import com.xiii.carbon.utils.BetterStream;
 import com.xiii.carbon.utils.MathUtils;
 import com.xiii.carbon.utils.TaskUtils;
@@ -15,19 +16,22 @@ import java.util.List;
 
 public class Exempt {
 
-    private final Profile profile;
-
     public Exempt(final Profile profile) {
         this.profile = profile;
     }
+
+    private final Profile profile;
 
     private boolean fly, water, lava, climable, cobweb, trapdoor_door, cake;
 
     private long lastWater, lastLava, lastClimable, lastCobweb, joined = System.currentTimeMillis();
 
+    private int teleportTicks;
+
     public void handleExempts(long timeStamp) {
 
         final MovementData movementData = profile.getMovementData();
+        final TeleportData teleportData = profile.getTeleportData();
 
         final List<Material> nearbyBlocks = movementData.getNearbyBlocks();
 
@@ -56,6 +60,9 @@ public class Exempt {
 
         //Cakes
         this.cake = BetterStream.anyMatch(nearbyBlocks, mat -> mat.toString().contains("CAKE"));
+
+        //Teleport
+        this.teleportTicks = teleportData.getTeleportTicks();
 
         if (this.water) this.lastWater = System.currentTimeMillis();
 
@@ -108,5 +115,9 @@ public class Exempt {
 
     public boolean isCake() {
         return cake;
+    }
+
+    public int getTeleportTicks() {
+        return teleportTicks;
     }
 }

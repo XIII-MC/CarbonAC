@@ -31,9 +31,14 @@ public class ServerPlayPacket {
     private WrapperPlayServerEntityStatus entityStatusWrapper;
 
     /*
-    Block action ache
+    Block action cache
      */
     private WrapperPlayServerBlockAction blockActionWrapper;
+
+    /*
+    Player Position Look cache
+     */
+    private WrapperPlayServerPlayerPositionAndLook playerPositionAndLookWrapper;
 
     public ServerPlayPacket(final PacketType.Play.Server type, final PacketPlaySendEvent packet, final long timeStamp) {
         this.timeStamp = timeStamp;
@@ -70,6 +75,12 @@ public class ServerPlayPacket {
                 this.blockActionWrapper = new WrapperPlayServerBlockAction(packet);
 
                 break;
+
+            case PLAYER_POSITION_AND_LOOK:
+
+                this.playerPositionAndLookWrapper = new WrapperPlayServerPlayerPositionAndLook(packet);
+
+                break;
         }
     }
 
@@ -91,6 +102,10 @@ public class ServerPlayPacket {
 
     public WrapperPlayServerBlockAction getBlockActionWrapper() {
         return blockActionWrapper;
+    }
+
+    public WrapperPlayServerPlayerPositionAndLook getPlayerPositionAndLookWrapper() {
+        return playerPositionAndLookWrapper;
     }
 
     public boolean is(PacketType.Play.Server type) {

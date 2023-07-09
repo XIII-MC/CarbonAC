@@ -71,7 +71,7 @@ public class Profile {
         this.connectionData = new ConnectionData();
         this.movementData = new MovementData(this);
         this.rotationData = new RotationData(this);
-        this.teleportData = new TeleportData();
+        this.teleportData = new TeleportData(this);
         this.velocityData = new VelocityData();
         this.vehicleData = new VehicleData(this);
 
