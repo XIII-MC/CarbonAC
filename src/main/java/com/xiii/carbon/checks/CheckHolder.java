@@ -3,6 +3,7 @@ package com.xiii.carbon.checks;
 import com.xiii.carbon.checks.annotation.Testing;
 import com.xiii.carbon.checks.impl.fastclimb.FastClimbA;
 import com.xiii.carbon.checks.impl.fly.FlyA;
+import com.xiii.carbon.checks.impl.fly.FlyB;
 import com.xiii.carbon.checks.impl.killaura.KillAuraA;
 import com.xiii.carbon.checks.impl.killaura.KillAuraB;
 import com.xiii.carbon.checks.impl.killaura.KillAuraC;
@@ -52,6 +53,7 @@ public class CheckHolder {
         addChecks(
                 //new Test(this.profile),
                 new FlyA(this.profile),
+                new FlyB(this.profile),
                 new SpeedA(this.profile),
                 new TimerA(this.profile),
                 new KillAuraA(this.profile),
