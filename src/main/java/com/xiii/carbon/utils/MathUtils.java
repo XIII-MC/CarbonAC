@@ -7,6 +7,7 @@ import org.bukkit.util.Vector;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Collection;
 
 public final class MathUtils {
 
@@ -107,5 +108,22 @@ public final class MathUtils {
 
     public static double getAbsoluteDelta(final double one, final double two) {
         return Math.abs(Math.abs(one) - Math.abs(two));
+    }
+
+    public static int getMode(Collection<? extends Number> list) {
+        int mode = (int) list.toArray()[0];
+        int maxCount = 0;
+        for (Number value : list) {
+            int count = 1;
+            for (Number value2 : list) {
+                if (value2.equals(value))
+                    count++;
+                if (count > maxCount) {
+                    mode = (int) value;
+                    maxCount = count;
+                }
+            }
+        }
+        return mode;
     }
 }

@@ -51,7 +51,7 @@ public class CheckHolder {
          * Check initialization
          */
         addChecks(
-                //new Test(this.profile),
+                new Test(this.profile),
                 new FlyA(this.profile),
                 new FlyB(this.profile),
                 new SpeedA(this.profile),

@@ -5,6 +5,8 @@ import com.xiii.carbon.playerdata.data.impl.RotationData;
 import com.xiii.carbon.playerdata.processor.Processor;
 import com.xiii.carbon.utils.MathUtils;
 
+import java.util.ArrayDeque;
+
 /**
  * A sensitivity processor class that we'll be using in order to hold certain data
  * <p>
@@ -15,7 +17,11 @@ public class SensitivityProcessor implements Processor {
 
     private final Profile profile;
 
-    private double mouseX, mouseY, constantYaw, constantPitch, yawGcd, pitchGcd;
+    private double mouseX, mouseY, constantYaw, constantPitch, yawGcd, pitchGcd, testGCD;
+
+    private int sensitivity;
+
+    private ArrayDeque<Integer> sensitivitySamples = new ArrayDeque<>();
 
     public SensitivityProcessor(final Profile profile) {
         this.profile = profile;
@@ -45,7 +51,19 @@ public class SensitivityProcessor implements Processor {
     }
 
     private void handleSensitivity() {
-
+        final RotationData data = profile.getRotationData();
+        if (data.getDeltaPitch() > 0 && data.getDeltaPitch() < 30) {
+            final double modifier = Math.cbrt(0.8333 * (pitchGcd / MathUtils.EXPANDER));
+            final double nextStep = (modifier / .6) - 0.3333;
+            final double lastStep = nextStep * 200;
+            sensitivitySamples.add((int) lastStep);
+            if (sensitivitySamples.size() >= 20) {
+                sensitivity = MathUtils.getMode(sensitivitySamples);
+                final float gcdOne = (sensitivity / 200F) * 0.6F + 0.2F;
+                testGCD = gcdOne * gcdOne * gcdOne * 1.2F;
+                sensitivitySamples.clear();
+            }
+        }
         //Your sensitivity processing here
     }
 
@@ -71,5 +89,9 @@ public class SensitivityProcessor implements Processor {
 
     public double getPitchGcd() {
         return pitchGcd;
+    }
+
+    public int getSensitivity() {
+        return sensitivity;
     }
 }
