@@ -76,7 +76,7 @@ public class Config implements Initializer {
         NO_PERMISSION("messages.no-permission", Bukkit.spigot().getConfig().getString("messages.unknown-command"), "By putting \"unknown-command\" this will use the unknown-command message from the spigot.yml configuration file."),
         ALERT_MESSAGE("messages.alert-message", "&c%player% &7flagged &c%check% &7[&cx%vl%&7]", "Alert message that you will see whenever an alert is sent"),
         ALERT_HOVER("messages.alert-hover", Arrays.asList(
-                "Description:",
+                "&7Description:&r",
                 "%description%",
                 "",
                 "&7Information:&r",
