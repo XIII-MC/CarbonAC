@@ -8,6 +8,7 @@ import com.xiii.carbon.checks.impl.killaura.KillAuraA;
 import com.xiii.carbon.checks.impl.killaura.KillAuraB;
 import com.xiii.carbon.checks.impl.killaura.KillAuraC;
 import com.xiii.carbon.checks.impl.speed.SpeedA;
+import com.xiii.carbon.checks.impl.speed.SpeedB;
 import com.xiii.carbon.checks.impl.test.Test;
 import com.xiii.carbon.checks.impl.timer.TimerA;
 import com.xiii.carbon.checks.impl.velocity.VelocityA;
@@ -55,6 +56,7 @@ public class CheckHolder {
                 new FlyA(this.profile),
                 new FlyB(this.profile),
                 new SpeedA(this.profile),
+                new SpeedB(this.profile),
                 new TimerA(this.profile),
                 new KillAuraA(this.profile),
                 new KillAuraB(this.profile),
