@@ -94,6 +94,11 @@ public class Checks implements Initializer {
         VELOCITY_MAX_VL("velocity.max_vl", 30, "The maximum violation amount a player needs to reach in order to get punished"),
         VELOCITY_COMMANDS("velocity.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
 
+        INVALID("invalid", "", "Velocity Check"),
+        INVALID_A("invalid.a", true, "Should we enable this module?"),
+        INVALID_MAX_VL("invalid.max_vl", 30, "The maximum violation amount a player needs to reach in order to get punished"),
+        INVALID_COMMANDS("invalid.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
+
         FASTCLIMB("fastclimb", "", "FastClimb Check"),
         FASTCLIMB_A("fastclimb.a", true, "Should we enable this module?"),
         FASTCLIMB_MAX_VL("fastclimb.max_vl", 30, "The maximum violation amount a player needs to reach in order tp get punished"),

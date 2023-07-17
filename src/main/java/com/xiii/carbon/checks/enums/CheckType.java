@@ -9,6 +9,7 @@ public enum CheckType {
     KILLAURA("KillAura", CheckCategory.COMBAT),
     TEST("Test", CheckCategory.MOVEMENT),
     TIMER("Timer", CheckCategory.PACKET),
+    INVALID("Invalid", CheckCategory.PACKET),
     MOTION("Motion", CheckCategory.MOVEMENT);
 
     private final String checkName;
