@@ -12,6 +12,7 @@ import com.xiii.carbon.files.commentedfiles.CommentedFileConfiguration;
 import com.xiii.carbon.managers.profile.Profile;
 import com.xiii.carbon.utils.BetterStream;
 import com.xiii.carbon.utils.MiscUtils;
+import com.xiii.carbon.utils.TaskUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -90,7 +91,7 @@ public abstract class AbstractCheck {
     }
 
     protected void debug(Object info) {
-        Bukkit.broadcastMessage(String.valueOf(info));
+        TaskUtils.task(() -> Bukkit.broadcastMessage(String.valueOf(info)));
     }
 
     public void fail(String verbose) {
