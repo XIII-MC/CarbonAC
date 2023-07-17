@@ -26,11 +26,13 @@ public class SpeedB extends Check {
 
             final boolean exempt = profile.isExempt().isFly() || (profile.isExempt().isJoined(5000L) && movementData.isServerGround()) || profile.isExempt().getTeleportTicks() <= 2;
 
-            if (movementData.getAirTicks() > 2) {
+            if (!exempt && movementData.getAirTicks() > 2) {
 
                 final double friction = movementData.getDeltaXZ() - (movementData.getLastDeltaXZ() * MoveUtils.FRICTION + (actionData.isSprinting() ? 0.026 : 0.02));
 
-                if (!exempt && friction > 0) fail("friction=" + friction);
+                if (friction > 0) {
+                    if (increaseBuffer() > 1) fail("friction=" + friction);
+                } else decreaseBufferBy(1);
             }
         }
     }
