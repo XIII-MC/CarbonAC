@@ -55,7 +55,13 @@ public class FastClimbA extends Check {
         if (serverPlayPacket.is(PacketType.Play.Server.ENTITY_VELOCITY)) {
             addVelocity = Math.abs(serverPlayPacket.getEntityVelocityWrapper().getVelocity().getY());
             lastVelocity = System.currentTimeMillis();
-            debug( "VELOCITY=" + serverPlayPacket.getEntityVelocityWrapper().getVelocity().getY());
+
+            final MovementData movementData = profile.getMovementData();
+
+            final double velocityY = serverPlayPacket.getEntityVelocityWrapper().getVelocity().getY();
+
+            //TODO: Idk anymore like why tf aint it workin
+            //debug( "VELOCITY=" + serverPlayPacket.getEntityVelocityWrapper().getVelocity().getY() + " pred=" + (velocityY < 0 ? movementData.getLocation().getY() - velocityY : movementData.getLocation().getY() + velocityY) + " my=" + movementData.getLastLocation().getY());
         } else if (System.currentTimeMillis() - lastVelocity > 650) addVelocity = 0;
     }
 }
