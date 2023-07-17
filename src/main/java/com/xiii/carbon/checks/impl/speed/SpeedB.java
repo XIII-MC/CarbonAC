@@ -24,7 +24,7 @@ public class SpeedB extends Check {
             final MovementData movementData = profile.getMovementData();
             final ActionData actionData = profile.getActionData();
 
-            final boolean exempt = profile.isExempt().isFly() || (profile.isExempt().isJoined(5000L) && movementData.isServerGround());
+            final boolean exempt = profile.isExempt().isFly() || (profile.isExempt().isJoined(5000L) && movementData.isServerGround()) || profile.isExempt().getTeleportTicks() <= 2;
 
             if (movementData.getAirTicks() > 2) {
 

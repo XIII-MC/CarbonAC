@@ -24,7 +24,7 @@ public class FlyB extends Check {
 
         final double getAccelY = movementData.getDeltaY() - movementData.getLastDeltaY();
 
-        final boolean exempt = profile.isExempt().isFly() || profile.isExempt().isClimable(50L) || (profile.isExempt().isJoined(5000L) && movementData.isServerGround());
+        final boolean exempt = profile.isExempt().isFly() || profile.isExempt().isClimable(50L) || (profile.isExempt().isJoined(5000L) && movementData.isServerGround()) || profile.isExempt().getTeleportTicks() <= 2;
 
         final boolean fix = !(((movementData.getBelowBlocks().size() > 1 || !BetterStream.anyMatch(movementData.getBelowBlocks(), material -> material.toString().equalsIgnoreCase("AIR"))) && !movementData.getBelowBlocks().isEmpty()));
 
