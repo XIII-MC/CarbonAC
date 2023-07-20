@@ -1,14 +1,11 @@
 package com.xiii.carbon.listener;
 
-import com.github.retrooper.packetevents.util.adventure.AdventureSerializer;
 import com.xiii.carbon.Carbon;
 import com.xiii.carbon.api.events.CarbonViolationEvent;
 import com.xiii.carbon.enums.MsgType;
 import com.xiii.carbon.files.Config;
 import com.xiii.carbon.managers.profile.Profile;
 import com.xiii.carbon.tasks.TickTask;
-import com.xiii.carbon.utils.JsonBuilder;
-import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -42,8 +39,7 @@ public class ViolationListener implements Listener {
 
             if (profile == null) return;
 
-            final String tps = "20";
-            //TODO: Fix TPS
+            final String tps = String.valueOf(TickTask.getTPS());
 
             final String checkType = e.getType();
 
@@ -103,7 +99,7 @@ public class ViolationListener implements Listener {
 
                 if (!Config.Setting.CONSOLE_ALERT.getBoolean()) break alerts;
 
-                //Bukkit.getConsoleSender().sendMessage(alertMessage);
+                Bukkit.getConsoleSender().sendMessage(alertMessage);
             }
         });
     }
