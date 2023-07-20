@@ -102,6 +102,7 @@ public class Config implements Initializer {
         CHECKS("checks", "", "Checks configuration used across every checks"),
         CHECKS_VL_CLEAR_RATE("checks.violations-clear-rate", 5, "Every how many minutes should we clear all violations (in minutes)"),
         SILENT_MODE("checks.silent-mode", true, "Should we setback the player when they flag a movement check ?"),
+        AUTO_COMMAND("checks.auto-command", false, "Should we automatically run commands when player reach the maximum violation count ?"),
         TOGGLE_ALERTS_ON_JOIN("checks.toggle-alerts-on-join", true, "Should we enable alerts for admins when they join?");
 
         private final String key;

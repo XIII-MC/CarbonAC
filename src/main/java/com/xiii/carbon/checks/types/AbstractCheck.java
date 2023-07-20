@@ -137,7 +137,7 @@ public abstract class AbstractCheck {
 
         if (this.vl >= this.maxVl) {
 
-            MiscUtils.consoleCommand(this.commands);
+            if (Config.Setting.AUTO_COMMAND.getBoolean()) MiscUtils.consoleCommand(this.commands);
 
             this.vl = 0;
             this.buffer = 0;
