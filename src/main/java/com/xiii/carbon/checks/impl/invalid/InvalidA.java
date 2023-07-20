@@ -1,6 +1,5 @@
 package com.xiii.carbon.checks.impl.invalid;
 
-import com.xiii.carbon.checks.annotation.Experimental;
 import com.xiii.carbon.checks.enums.CheckType;
 import com.xiii.carbon.checks.types.Check;
 import com.xiii.carbon.managers.profile.Profile;
@@ -20,9 +19,11 @@ public class InvalidA extends Check {
 
         final RotationData rotationData = profile.getRotationData();
 
+        final boolean exempt = profile.isExempt().isCinematic();
+
         final int sensitivity = rotationData.getSensitivityProcessor().getSensitivity();
 
-        if (sensitivity < 0 || sensitivity > 200) fail("sens: §c" + sensitivity);
+        if (!exempt && (sensitivity < 0 || sensitivity > 200)) fail("sens: §c" + sensitivity);
     }
 
     @Override

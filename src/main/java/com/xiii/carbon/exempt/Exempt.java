@@ -4,6 +4,7 @@ import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import com.xiii.carbon.managers.profile.Profile;
 import com.xiii.carbon.playerdata.data.impl.CombatData;
 import com.xiii.carbon.playerdata.data.impl.MovementData;
+import com.xiii.carbon.playerdata.data.impl.RotationData;
 import com.xiii.carbon.playerdata.data.impl.TeleportData;
 import com.xiii.carbon.utils.BetterStream;
 import com.xiii.carbon.utils.MathUtils;
@@ -22,7 +23,7 @@ public class Exempt {
 
     private final Profile profile;
 
-    private boolean fly, water, lava, climable, cobweb, trapdoor_door, cake;
+    private boolean fly, water, lava, climable, cobweb, trapdoor_door, cake, cinematic;
 
     private long lastWater, lastLava, lastClimable, lastCobweb, joined = System.currentTimeMillis();
 
@@ -32,6 +33,7 @@ public class Exempt {
 
         final MovementData movementData = profile.getMovementData();
         final TeleportData teleportData = profile.getTeleportData();
+        final RotationData rotationData = profile.getRotationData();
 
         final List<Material> nearbyBlocks = movementData.getNearbyBlocks();
 
@@ -63,6 +65,9 @@ public class Exempt {
 
         //Teleport
         this.teleportTicks = teleportData.getTeleportTicks();
+
+        //Cinematic
+        this.cinematic = rotationData.getCinematicProcessor().isCinematic();
 
         if (this.water) this.lastWater = System.currentTimeMillis();
 
@@ -119,5 +124,9 @@ public class Exempt {
 
     public int getTeleportTicks() {
         return teleportTicks;
+    }
+
+    public boolean isCinematic() {
+        return cinematic;
     }
 }
