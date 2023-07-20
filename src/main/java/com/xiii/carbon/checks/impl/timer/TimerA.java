@@ -10,7 +10,6 @@ import com.xiii.carbon.processors.packet.ServerPlayPacket;
 import com.xiii.carbon.utils.BetterStream;
 import com.xiii.carbon.utils.SampleList;
 
-@Experimental
 public class TimerA extends Check {
     public TimerA(final Profile profile) {
         super(profile, CheckType.TIMER, "A", "Checks if a player sends more packets.");
@@ -59,7 +58,7 @@ public class TimerA extends Check {
             if (balance > 10 && !exempt) {
 
                 if (increaseBufferBy(1) > 1)
-                    fail("b=" + balance);
+                    fail("balance: §c" + balance);
 
                 balance = -2;
             } else decreaseBufferBy(0.05);

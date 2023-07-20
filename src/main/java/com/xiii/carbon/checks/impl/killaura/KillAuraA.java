@@ -20,7 +20,7 @@ public class KillAuraA extends Check {
 
             final int currentEntity = clientPlayPacket.getInteractEntityWrapper().getEntityId();
 
-            if (currentEntity != lastHitEntity && increaseBuffer() > 1) fail("c=" + getBuffer());
+            if (currentEntity != lastHitEntity && increaseBuffer() > 1) fail("buffer: §c" + getBuffer());
 
             lastHitEntity = currentEntity;
         } else if (clientPlayPacket.isFlying()) resetBuffer();

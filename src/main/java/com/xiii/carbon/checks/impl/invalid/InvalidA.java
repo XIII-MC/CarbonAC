@@ -8,7 +8,6 @@ import com.xiii.carbon.playerdata.data.impl.RotationData;
 import com.xiii.carbon.processors.packet.ClientPlayPacket;
 import com.xiii.carbon.processors.packet.ServerPlayPacket;
 
-@Experimental
 public class InvalidA extends Check {
     public InvalidA(final Profile profile) {
         super(profile, CheckType.INVALID, "A", "Invalid mouse sensitivity");
@@ -17,14 +16,13 @@ public class InvalidA extends Check {
     @Override
     public void handle(final ClientPlayPacket clientPlayPacket) {
 
-        if (clientPlayPacket.isRotation()) {
+        if (!clientPlayPacket.isRotation()) return;
 
-            final RotationData rotationData = profile.getRotationData();
+        final RotationData rotationData = profile.getRotationData();
 
-            final int sensitivity = rotationData.getSensitivityProcessor().getSensitivity();
+        final int sensitivity = rotationData.getSensitivityProcessor().getSensitivity();
 
-            if (sensitivity < 0 || sensitivity > 200) fail("sens=" + sensitivity);
-        }
+        if (sensitivity < 0 || sensitivity > 200) fail("sens: §c" + sensitivity);
     }
 
     @Override

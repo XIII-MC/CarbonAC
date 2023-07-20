@@ -9,18 +9,17 @@ import com.xiii.carbon.processors.packet.ClientPlayPacket;
 import com.xiii.carbon.processors.packet.ServerPlayPacket;
 import com.xiii.carbon.utils.BetterStream;
 
-@Experimental
 public class FlyB extends Check {
-
     public FlyB(final Profile profile) {
         super(profile, CheckType.FLY, "B", "Checks the player's y acceleration.");
     }
 
     @Override
-    public void handle(ClientPlayPacket clientPlayPacket) {
+    public void handle(final ClientPlayPacket clientPlayPacket) {
+
         if (!clientPlayPacket.isMovement()) return;
 
-        MovementData movementData = profile.getMovementData();
+        final MovementData movementData = profile.getMovementData();
 
         final double getAccelY = movementData.getDeltaY() - movementData.getLastDeltaY();
 
@@ -28,10 +27,9 @@ public class FlyB extends Check {
 
         final boolean fix = !(((movementData.getBelowBlocks().size() > 1 || !BetterStream.anyMatch(movementData.getBelowBlocks(), material -> material.toString().equalsIgnoreCase("AIR"))) && !movementData.getBelowBlocks().isEmpty()));
 
-        if (movementData.getAirTicks() > 2 && getAccelY >= 0 && !movementData.isOnGround() && !exempt && fix)
-            fail("accel=" + getAccelY);
+        if (movementData.getAirTicks() > 2 && getAccelY >= 0 && !movementData.isOnGround() && !exempt && fix) fail("accel: §c" + getAccelY + System.lineSeparator() + "§rfix: §c" + fix + "§r bBS: §c" + movementData.getBelowBlocks().size());
     }
 
     @Override
-    public void handle(ServerPlayPacket serverPlayPacket) {}
+    public void handle(final ServerPlayPacket serverPlayPacket) {}
 }
