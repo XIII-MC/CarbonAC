@@ -543,6 +543,10 @@ public class MovementData implements Data {
         return blockAboveTicks;
     }
 
+    public int getLastBlockAboveTicks() {
+        return lastBlockAboveTicks;
+    }
+
     public int getBlockMiddleTicks() {
         return blockMiddleTicks;
     }
