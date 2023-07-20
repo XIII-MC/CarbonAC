@@ -65,48 +65,57 @@ public class Checks implements Initializer {
     }
 
     public enum Setting {
+        /**
+         * Max VLs explanation and usage. (MVC: Max Violation Count)
+         * - MVC 3 : Check stable, very hard/impossible to false (example: BadPacket)
+         * - MVC 6 : Good check, rarely/barely falses but can still for some very rare occurrences (example: Fly)
+         * - MVC 12 : Passable check, can be falsed if you really try to/falsable by a lot of different factors (example: Speed)
+         * - MVC 24 : Okay-ish check, either falses randomly or can get a few falses without trying (example: Timer)
+         * MVC only doubles (3, 6, 12, 24). If you need a higher MVC use 48, 96, ect...
+         */
+
         FLY("fly", "", "Fly Check"),
         FLY_A("fly.a", true, "Should we enable this module?"),
         FLY_B("fly.b", true, "Should we enable this module?"),
-        FLY_MAX_VL("fly.max_vl", 30, "The maximum violation amount a player needs to reach in order to get punished"),
+        FLY_MAX_VL("fly.max_vl", 6, "The maximum violation amount a player needs to reach in order to get punished"),
         FLY_COMMANDS("fly.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
 
         SPEED("speed", "", "Speed Check"),
         SPEED_A("speed.a", true, "Should we enable this module?"),
         SPEED_B("speed.b", true, "Should we enable this module?"),
-        SPEED_MAX_VL("speed.max_vl", 30, "The maximum violation amount a player needs to reach in order to get punished"),
+        SPEED_MAX_VL("speed.max_vl", 12, "The maximum violation amount a player needs to reach in order to get punished"),
         SPEED_COMMANDS("speed.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
 
         TIMER("timer", "", "Timer Check"),
         TIMER_A("timer.a", true, "Should we enable this module?"),
-        TIMER_MAX_VL("timer.max_vl", 30, "The maximum violation amount a player needs to reach in order to get punished"),
+        TIMER_MAX_VL("timer.max_vl", 24, "The maximum violation amount a player needs to reach in order to get punished"),
         TIMER_COMMANDS("timer.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
 
         KILLAURA("killaura", "", "KillAura Check"),
         KILLAURA_A("killaura.a", true, "Should we enable this module?"),
         KILLAURA_B("killaura.b", true, "Should we enable this module?"),
         KILLAURA_C("killaura.c", true, "Should we enable this module?"),
-        KILLAURA_MAX_VL("killaura.max_vl", 30, "The maximum violation amount a player needs to reach in order to get punished"),
+        KILLAURA_MAX_VL("killaura.max_vl", 3, "The maximum violation amount a player needs to reach in order to get punished"),
         KILLAURA_COMMANDS("killaura.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
 
         VELOCITY("velocity", "", "Velocity Check"),
         VELOCITY_A("velocity.a", true, "Should we enable this module?"),
-        VELOCITY_MAX_VL("velocity.max_vl", 30, "The maximum violation amount a player needs to reach in order to get punished"),
+        VELOCITY_MAX_VL("velocity.max_vl", 12, "The maximum violation amount a player needs to reach in order to get punished"),
         VELOCITY_COMMANDS("velocity.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
 
         INVALID("invalid", "", "Velocity Check"),
         INVALID_A("invalid.a", true, "Should we enable this module?"),
-        INVALID_MAX_VL("invalid.max_vl", 30, "The maximum violation amount a player needs to reach in order to get punished"),
+        INVALID_MAX_VL("invalid.max_vl", 3, "The maximum violation amount a player needs to reach in order to get punished"),
         INVALID_COMMANDS("invalid.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
 
         FASTCLIMB("fastclimb", "", "FastClimb Check"),
         FASTCLIMB_A("fastclimb.a", true, "Should we enable this module?"),
-        FASTCLIMB_MAX_VL("fastclimb.max_vl", 30, "The maximum violation amount a player needs to reach in order tp get punished"),
+        FASTCLIMB_MAX_VL("fastclimb.max_vl", 6, "The maximum violation amount a player needs to reach in order tp get punished"),
         FASTCLIMB_COMMANDS("fastclimb.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
 
         TEST("test", "", "Test Check"),
         TEST_A("test.a", true, "Should we enable this module?"),
-        TEST_MAX_VL("test.max_vl", 30, "The maximum violation amount a player needs to reach in order to get punished"),
+        TEST_MAX_VL("test.max_vl", 999999999, "The maximum violation amount a player needs to reach in order to get punished"),
         TEST_COMMANDS("test.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount");
 
         private final String key;
