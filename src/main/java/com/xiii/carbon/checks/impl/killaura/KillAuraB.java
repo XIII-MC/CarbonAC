@@ -13,28 +13,16 @@ public class KillAuraB extends Check {
         super(profile, CheckType.KILLAURA, "B", "Checks the player's packet timing.");
     }
 
-    private long UseEntityPackets;
-    private boolean hit;
-
     @Override
     public void handle(final ClientPlayPacket clientPlayPacket) {
 
-        if (clientPlayPacket.isAttack()) {
-            hit = true;
-            UseEntityPackets = System.currentTimeMillis();
-        } else if (clientPlayPacket.isFlying()) {
-            final long lastFlying = System.currentTimeMillis() - UseEntityPackets;
-            if (hit) {
-                if (lastFlying > 12) {
-                    fail("f=" + lastFlying);
-                }
-            }
-            hit = false;
-        }
+        if (!clientPlayPacket.isFlying()) return;
+
+        final long lastFlying = System.currentTimeMillis() - clientPlayPacket.getLastAttack();
+
+        if (clientPlayPacket.isAttack() && lastFlying > 12) fail("lF: §c" + lastFlying);
     }
 
     @Override
-    public void handle(final ServerPlayPacket serverPlayPacket) {
-
-    }
+    public void handle(final ServerPlayPacket serverPlayPacket) {}
 }

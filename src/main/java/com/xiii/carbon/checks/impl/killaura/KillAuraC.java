@@ -1,6 +1,5 @@
 package com.xiii.carbon.checks.impl.killaura;
 
-import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.xiii.carbon.checks.annotation.Experimental;
 import com.xiii.carbon.checks.enums.CheckType;
 import com.xiii.carbon.checks.types.Check;
@@ -14,31 +13,17 @@ public class KillAuraC extends Check {
         super(profile, CheckType.KILLAURA, "C", "Checks the player's packet timing.");
     }
 
-    private long UseEntityPackets;
-    private boolean hit;
-
     @Override
     public void handle(final ClientPlayPacket clientPlayPacket) {
 
-        if (clientPlayPacket.isAttack()) {
+        if (clientPlayPacket.isFlying() && clientPlayPacket.isAttack()) {
 
-            hit = true;
-        } else if (clientPlayPacket.isFlying()) {
-            if (hit) {
-                final long time = (System.currentTimeMillis() - UseEntityPackets);
-                if (time > 40) {
-                    fail("t=" + time);
-                }
-                hit = false;
-            }
+            final long delay = System.currentTimeMillis() - clientPlayPacket.getLastAnimation();
 
-        } else if (clientPlayPacket.is(PacketType.Play.Client.ANIMATION)) {
-            UseEntityPackets = System.currentTimeMillis();
+            if (delay > 40) fail("delay: §c" + delay);
         }
     }
 
     @Override
-    public void handle(final ServerPlayPacket serverPlayPacket) {
-
-    }
+    public void handle(final ServerPlayPacket serverPlayPacket) {}
 }

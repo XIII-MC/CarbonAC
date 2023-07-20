@@ -13,7 +13,14 @@ public class ClientPlayPacket {
     Use entity cache
      */
     private WrapperPlayClientInteractEntity interactEntityWrapper;
+    private long lastAttack;
     private boolean attack;
+
+    /*
+    Animation cache
+     */
+    private WrapperPlayClientAnimation animation;
+    private long lastAnimation;
 
     /*
     Block Dig/Place cache
@@ -55,6 +62,8 @@ public class ClientPlayPacket {
 
                 this.attack = this.interactEntityWrapper.getAction() == WrapperPlayClientInteractEntity.InteractAction.ATTACK;
 
+                if (this.attack) this.lastAttack = this.timeStamp;
+
                 break;
 
             case PLAYER_DIGGING:
@@ -88,6 +97,8 @@ public class ClientPlayPacket {
                 break;
 
             case PLAYER_FLYING:
+
+                this.attack = false;
             case PLAYER_POSITION:
 
                 this.positionWrapper = new WrapperPlayClientPlayerPosition(packet);
@@ -111,6 +122,12 @@ public class ClientPlayPacket {
                 this.flying = this.rotation = true;
 
                 break;
+
+            case ANIMATION:
+
+                this.animation = new WrapperPlayClientAnimation(packet);
+
+                this.lastAnimation = this.timeStamp;
         }
     }
 
@@ -132,6 +149,10 @@ public class ClientPlayPacket {
 
     public WrapperPlayClientInteractEntity getInteractEntityWrapper() {
         return interactEntityWrapper;
+    }
+
+    public long getLastAttack() {
+        return lastAttack;
     }
 
     public WrapperPlayClientPlayerDigging getPlayerDiggingWrapper() {
@@ -164,6 +185,14 @@ public class ClientPlayPacket {
 
     public WrapperPlayClientPlayerRotation getLookWrapper() {
         return lookWrapper;
+    }
+
+    public WrapperPlayClientAnimation getAnimation() {
+        return animation;
+    }
+
+    public long getLastAnimation() {
+        return lastAnimation;
     }
 
     public boolean is(PacketType.Play.Client type) {
