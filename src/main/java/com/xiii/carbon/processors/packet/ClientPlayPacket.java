@@ -17,6 +17,16 @@ public class ClientPlayPacket {
     private boolean attack;
 
     /*
+    Keep Alive cache
+     */
+    private WrapperPlayClientKeepAlive keepAliveWrapper;
+
+    /*
+    Held Item Change cache
+     */
+    private WrapperPlayClientHeldItemChange heldItemChangeWrapper;
+
+    /*
     Animation cache
      */
     private WrapperPlayClientAnimation animation;
@@ -44,11 +54,17 @@ public class ClientPlayPacket {
     private WrapperPlayClientChatMessage chatWrapper;
 
     /*
+    Steer Vehicle cache
+     */
+    private WrapperPlayClientSteerVehicle steerVehicleWrapper;
+
+    /*
     Movement - Flying cache
      */
     private WrapperPlayClientPlayerPosition positionWrapper;
     private WrapperPlayClientPlayerPositionAndRotation positionLookWrapper;
     private WrapperPlayClientPlayerRotation lookWrapper;
+    private WrapperPlayClientPlayerFlying flyingWrapper;
     private boolean movement, rotation, flying;
 
     public ClientPlayPacket(final PacketType.Play.Client type, final PacketPlayReceiveEvent packet, final long timeStamp) {
@@ -98,6 +114,8 @@ public class ClientPlayPacket {
 
             case PLAYER_FLYING:
 
+                this.flyingWrapper = new WrapperPlayClientPlayerFlying(packet);
+
                 this.attack = false;
             case PLAYER_POSITION:
 
@@ -128,6 +146,26 @@ public class ClientPlayPacket {
                 this.animation = new WrapperPlayClientAnimation(packet);
 
                 this.lastAnimation = this.timeStamp;
+
+                break;
+
+            case HELD_ITEM_CHANGE:
+
+                this.heldItemChangeWrapper = new WrapperPlayClientHeldItemChange(packet);
+
+                break;
+
+            case STEER_VEHICLE:
+
+                this.steerVehicleWrapper = new WrapperPlayClientSteerVehicle(packet);
+
+                break;
+
+            case KEEP_ALIVE:
+
+                this.keepAliveWrapper = new WrapperPlayClientKeepAlive(packet);
+
+                break;
         }
     }
 
@@ -175,6 +213,10 @@ public class ClientPlayPacket {
         return chatWrapper;
     }
 
+    public WrapperPlayClientPlayerFlying getFlyingWrapper() {
+        return flyingWrapper;
+    }
+
     public WrapperPlayClientPlayerPosition getPositionWrapper() {
         return positionWrapper;
     }
@@ -189,6 +231,18 @@ public class ClientPlayPacket {
 
     public WrapperPlayClientAnimation getAnimation() {
         return animation;
+    }
+
+    public WrapperPlayClientHeldItemChange getHeldItemChangeWrapper() {
+        return heldItemChangeWrapper;
+    }
+
+    public WrapperPlayClientSteerVehicle getSteerVehicleWrapper() {
+        return steerVehicleWrapper;
+    }
+
+    public WrapperPlayClientKeepAlive getKeepAliveWrapper() {
+        return keepAliveWrapper;
     }
 
     public long getLastAnimation() {

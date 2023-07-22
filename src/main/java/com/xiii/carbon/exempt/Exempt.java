@@ -1,6 +1,7 @@
 package com.xiii.carbon.exempt;
 
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
+import com.xiii.carbon.Carbon;
 import com.xiii.carbon.managers.profile.Profile;
 import com.xiii.carbon.playerdata.data.impl.CombatData;
 import com.xiii.carbon.playerdata.data.impl.MovementData;
@@ -128,5 +129,9 @@ public class Exempt {
 
     public boolean isCinematic() {
         return cinematic;
+    }
+
+    public boolean isVehicle() {
+        return Carbon.getInstance().getNmsManager().getNmsInstance().isInsideVehicle(profile.getPlayer());
     }
 }

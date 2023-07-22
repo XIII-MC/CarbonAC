@@ -36,6 +36,11 @@ public class ServerPlayPacket {
     private WrapperPlayServerBlockAction blockActionWrapper;
 
     /*
+    Keep Alive cache
+     */
+    private WrapperPlayServerKeepAlive keepAliveWrapper;
+
+    /*
     Player Position Look cache
      */
     private WrapperPlayServerPlayerPositionAndLook playerPositionAndLookWrapper;
@@ -81,6 +86,12 @@ public class ServerPlayPacket {
                 this.playerPositionAndLookWrapper = new WrapperPlayServerPlayerPositionAndLook(packet);
 
                 break;
+
+            case KEEP_ALIVE:
+
+                this.keepAliveWrapper = new WrapperPlayServerKeepAlive(packet);
+
+                break;
         }
     }
 
@@ -106,6 +117,10 @@ public class ServerPlayPacket {
 
     public WrapperPlayServerPlayerPositionAndLook getPlayerPositionAndLookWrapper() {
         return playerPositionAndLookWrapper;
+    }
+
+    public WrapperPlayServerKeepAlive getKeepAliveWrapper() {
+        return keepAliveWrapper;
     }
 
     public boolean is(PacketType.Play.Server type) {

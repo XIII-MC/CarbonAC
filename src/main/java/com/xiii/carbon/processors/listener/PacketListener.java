@@ -70,7 +70,6 @@ public class PacketListener extends SimplePacketListenerAbstract {
     public void onPacketPlaySend(final PacketPlaySendEvent e) {
         if (e.isCancelled() || e.getPlayer() == null) return;
 
-
         final Player player = (Player) e.getPlayer();
 
         final ServerPlayPacket serverPlayPacket = new ServerPlayPacket(e.getPacketType(), e, e.getTimestamp());
