@@ -77,7 +77,7 @@ public class Config implements Initializer {
         ALERT_MESSAGE("messages.alert-message", "&c%player% &7flagged &c%check% &7[&cx%vl%&7]", "Alert message that you will see whenever an alert is sent"),
         ALERT_HOVER("messages.alert-hover", Arrays.asList(
                 "&7Description:&r",
-                "%description%",
+                "§r%description%",
                 "",
                 "&7Information:&r",
                 "%information%",
