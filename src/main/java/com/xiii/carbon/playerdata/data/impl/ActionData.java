@@ -2,12 +2,14 @@ package com.xiii.carbon.playerdata.data.impl;
 
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientEntityAction;
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerBlockPlacement;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerBlockAction;
 import com.xiii.carbon.Carbon;
 import com.xiii.carbon.managers.profile.Profile;
 import com.xiii.carbon.playerdata.data.Data;
 import com.xiii.carbon.processors.packet.ClientPlayPacket;
 import com.xiii.carbon.processors.packet.ServerPlayPacket;
+import com.xiii.carbon.utils.MathUtils;
 import com.xiii.carbon.utils.MiscUtils;
 import com.xiii.carbon.utils.TaskUtils;
 import com.xiii.carbon.utils.custom.PlacedBlock;
@@ -30,6 +32,8 @@ public class ActionData implements Data {
     private ItemStack itemInMainHand = MiscUtils.EMPTY_ITEM, itemInOffHand = MiscUtils.EMPTY_ITEM;
 
     private int lastAllowFlightTicks, lastSleepingTicks, lastRidingTicks;
+
+    private long lastPlace = 10000L;
 
     /*
      * 1.9+
@@ -54,17 +58,27 @@ public class ActionData implements Data {
     @Override
     public void process(final ClientPlayPacket clientPlayPacket) {
 
-        if (clientPlayPacket.is(PacketType.Play.Client.ENTITY_ACTION)) {
+        switch (clientPlayPacket.getType()) {
 
-            final WrapperPlayClientEntityAction action = clientPlayPacket.getEntityActionWrapper();
+            case ENTITY_ACTION:
 
-            if(action.getAction() == WrapperPlayClientEntityAction.Action.START_SPRINTING) this.sprinting = true;
+                final WrapperPlayClientEntityAction action = clientPlayPacket.getEntityActionWrapper();
 
-            if(action.getAction() == WrapperPlayClientEntityAction.Action.STOP_SPRINTING) this.sprinting = false;
+                if (action.getAction() == WrapperPlayClientEntityAction.Action.START_SPRINTING) this.sprinting = true;
 
-            if(action.getAction() == WrapperPlayClientEntityAction.Action.START_SNEAKING) this.sneaking = true;
+                if (action.getAction() == WrapperPlayClientEntityAction.Action.STOP_SPRINTING) this.sprinting = false;
 
-            if(action.getAction() == WrapperPlayClientEntityAction.Action.STOP_SNEAKING) this.sneaking = false;
+                if (action.getAction() == WrapperPlayClientEntityAction.Action.START_SNEAKING) this.sneaking = true;
+
+                if (action.getAction() == WrapperPlayClientEntityAction.Action.STOP_SNEAKING) this.sneaking = false;
+
+                break;
+
+            case PLAYER_BLOCK_PLACEMENT:
+
+                final WrapperPlayClientPlayerBlockPlacement place = clientPlayPacket.getPlayerBlockPlacementWrapper();
+
+                this.lastPlace = clientPlayPacket.getTimeStamp();
         }
     }
 
@@ -105,6 +119,10 @@ public class ActionData implements Data {
 
     public GameMode getGameMode() {
         return gameMode;
+    }
+
+    public long getLastPlace() {
+        return MathUtils.elapsed(lastPlace);
     }
 
     public int getLastDuplicateOnePointSeventeenPacketTicks() {
