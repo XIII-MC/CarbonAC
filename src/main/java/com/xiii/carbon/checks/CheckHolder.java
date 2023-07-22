@@ -8,6 +8,8 @@ import com.xiii.carbon.checks.impl.invalid.InvalidA;
 import com.xiii.carbon.checks.impl.killaura.KillAuraA;
 import com.xiii.carbon.checks.impl.killaura.KillAuraB;
 import com.xiii.carbon.checks.impl.killaura.KillAuraC;
+import com.xiii.carbon.checks.impl.packet.PacketA;
+import com.xiii.carbon.checks.impl.packet.PacketB;
 import com.xiii.carbon.checks.impl.speed.SpeedA;
 import com.xiii.carbon.checks.impl.speed.SpeedB;
 import com.xiii.carbon.checks.impl.test.Test;
@@ -64,6 +66,8 @@ public class CheckHolder {
                 new KillAuraC(this.profile),
                 new VelocityA(this.profile),
                 new InvalidA(this.profile),
+                new PacketA(this.profile),
+                new PacketB(this.profile),
                 new FastClimbA(this.profile)
 
         );

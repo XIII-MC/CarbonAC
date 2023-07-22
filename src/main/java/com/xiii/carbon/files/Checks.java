@@ -67,6 +67,7 @@ public class Checks implements Initializer {
     public enum Setting {
         /**
          * Max VLs explanation and usage. (MVC: Max Violation Count)
+         * - MVC 0 : PERFECT INSANE UNFALSABLE CHECK. This CANNOT false, if you mess up your fucked. (Example: Invalid sensitivity)
          * - MVC 3 : Check stable, very hard/impossible to false (example: BadPacket)
          * - MVC 6 : Good check, rarely/barely falses but can still for some very rare occurrences (example: Fly)
          * - MVC 12 : Passable check, can be falsed if you really try to/falsable by a lot of different factors (example: Speed)
@@ -112,6 +113,12 @@ public class Checks implements Initializer {
         FASTCLIMB_A("fastclimb.a", true, "Should we enable this module?"),
         FASTCLIMB_MAX_VL("fastclimb.max_vl", 6, "The maximum violation amount a player needs to reach in order tp get punished"),
         FASTCLIMB_COMMANDS("fastclimb.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
+
+        PACKET("packet", "", "Test Check"),
+        PACKET_A("packet.a", true, "Should we enable this module?"),
+        PACKET_B("packet.b", true, "Should we enable this module?"),
+        PACKET_MAX_VL("packet.max_vl", 3, "The maximum violation amount a player needs to reach in order to get punished"),
+        PACKET_COMMANDS("packet.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
 
         TEST("test", "", "Test Check"),
         TEST_A("test.a", true, "Should we enable this module?"),
