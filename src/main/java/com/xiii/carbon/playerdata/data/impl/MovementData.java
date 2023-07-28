@@ -46,7 +46,7 @@ public class MovementData implements Data {
 
     private int flyTicks, serverGroundTicks, lastServerGroundTicks, nearGroundTicks, lastNearGroundTicks, jumpedTicks,
             lastUnloadedChunkTicks = 100,
-            clientGroundTicks, lastNearWallTicks, airTicks,
+            clientGroundTicks, lastNearWallTicks, airTicks, serverAirTicks,
             lastFrictionFactorUpdateTicks, lastNearEdgeTicks,
             lastFlyingAbility = 10000,
             blockAboveTicks, lastBlockAboveTicks, blockMiddleTicks, blockBelowTicks, blockUnderTicks, blockFootTicks;
@@ -312,6 +312,8 @@ public class MovementData implements Data {
 
         this.airTicks = onGround ? 0 : this.airTicks + 1;
 
+        this.serverAirTicks = serverGround ? 0 : this.airTicks + 1;
+
         this.lastNearGroundTicks = this.nearGroundTicks;
 
         //Equipment
@@ -369,6 +371,10 @@ public class MovementData implements Data {
 
     public int getAirTicks() {
         return airTicks;
+    }
+
+    public int getServerAirTicks() {
+        return serverAirTicks;
     }
 
     public int getClientGroundTicks() {

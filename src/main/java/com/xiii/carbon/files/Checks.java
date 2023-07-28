@@ -120,6 +120,12 @@ public class Checks implements Initializer {
         PACKET_MAX_VL("packet.max_vl", 3, "The maximum violation amount a player needs to reach in order to get punished"),
         PACKET_COMMANDS("packet.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
 
+        GROUND("ground", "", "Ground Check"),
+        GROUND_A("ground.a", true, "Should we enable this module?"),
+        GROUND_MAX_VL("ground.max_vl", 6, "The maximum violation amount a player needs to reach in order tp get punished"),
+        GROUND_COMMANDS("ground.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
+
+
         TEST("test", "", "Test Check"),
         TEST_A("test.a", true, "Should we enable this module?"),
         TEST_MAX_VL("test.max_vl", 999999999, "The maximum violation amount a player needs to reach in order to get punished"),

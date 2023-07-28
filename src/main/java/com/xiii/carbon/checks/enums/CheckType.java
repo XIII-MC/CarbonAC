@@ -11,7 +11,8 @@ public enum CheckType {
     TIMER("Timer", CheckCategory.PACKET),
     INVALID("Invalid", CheckCategory.MOVEMENT),
     PACKET("Packet", CheckCategory.PACKET),
-    MOTION("Motion", CheckCategory.MOVEMENT);
+    MOTION("Motion", CheckCategory.MOVEMENT),
+    GROUND("Ground", CheckCategory.MOVEMENT);
 
     private final String checkName;
     private final CheckCategory checkCategory;
