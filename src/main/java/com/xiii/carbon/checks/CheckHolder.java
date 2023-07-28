@@ -12,7 +12,7 @@ import com.xiii.carbon.checks.impl.packet.PacketA;
 import com.xiii.carbon.checks.impl.packet.PacketB;
 import com.xiii.carbon.checks.impl.speed.SpeedA;
 import com.xiii.carbon.checks.impl.speed.SpeedB;
-import com.xiii.carbon.checks.impl.test.Test;
+import com.xiii.carbon.checks.impl.Test;
 import com.xiii.carbon.checks.impl.timer.TimerA;
 import com.xiii.carbon.checks.impl.velocity.VelocityA;
 import com.xiii.carbon.checks.types.Check;

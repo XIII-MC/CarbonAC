@@ -234,6 +234,7 @@ public final class CollisionUtils {
         final double aboveY = locationY + 2.0D; // locationY + 1.9D
         final double middleY = locationY + 1D;
         final double underY = locationY - .500001D;
+        final double footY = locationY - .050001D;
 
         CustomLocation cloned = location.clone();
 
@@ -258,6 +259,38 @@ public final class CollisionUtils {
                  */
                 cloned.setX(expandX + additionalX);
                 cloned.setZ(expandZ + additionalZ);
+
+                foot:
+                {
+
+                    cloned.setY(footY);
+
+                    Block foot = getBlock(cloned, async);
+
+                    if (foot == null) break foot;
+
+                    if (!blockPositions.contains(foot)) {
+
+                        result.handle(foot, BlockPosition.FOOT, nms);
+
+                        blockPositions.add(foot);
+                    }
+
+                    //We need to check for both since fences/walls set the player a bit higher so footY won't catch it :(
+
+                    cloned.setY(underY);
+
+                    foot = getBlock(cloned, async);
+
+                    if (foot == null) break foot;
+
+                    if (!blockPositions.contains(foot)) {
+
+                        result.handle(foot, BlockPosition.FOOT, nms);
+
+                        blockPositions.add(foot);
+                    }
+                }
 
                 above:
                 {
@@ -330,22 +363,6 @@ public final class CollisionUtils {
                         result.handle(below, BlockPosition.BELOW, nms);
 
                         blockPositions.add(below);
-                    }
-                }
-                foot:
-                {
-
-                    cloned.setY(underY - 1);
-
-                    final Block foot = getBlock(cloned, async);
-
-                    if (foot == null) break foot;
-
-                    if (!blockPositions.contains(foot)) {
-
-                        result.handle(foot, BlockPosition.FOOT, nms);
-
-                        blockPositions.add(foot);
                     }
                 }
             }
