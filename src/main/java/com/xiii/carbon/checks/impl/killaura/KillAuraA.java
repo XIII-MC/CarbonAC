@@ -23,7 +23,7 @@ public class KillAuraA extends Check {
             if (currentEntity != lastHitEntity && increaseBuffer() > 1) fail("buffer: §c" + getBuffer());
 
             lastHitEntity = currentEntity;
-        } else if (clientPlayPacket.isFlying()) resetBuffer();
+        } else if (clientPlayPacket.isFlying()) decreaseBufferBy(0.25);
 
     }
 

@@ -1,5 +1,6 @@
 package com.xiii.carbon.checks.impl.ground;
 
+import com.xiii.carbon.checks.annotation.Experimental;
 import com.xiii.carbon.checks.enums.CheckType;
 import com.xiii.carbon.checks.types.Check;
 import com.xiii.carbon.managers.profile.Profile;
@@ -11,6 +12,7 @@ import org.bukkit.Material;
 
 import java.util.List;
 
+@Experimental
 public class GroundA extends Check {
 
     public GroundA(final Profile profile) {
@@ -23,10 +25,15 @@ public class GroundA extends Check {
         if (!clientPlayPacket.isMovement()) return;
 
         final MovementData movementData = profile.getMovementData();
+
         final List<Material> footBlocks = movementData.getFootBlocks();
+
         final boolean testBoolean = !BetterStream.allMatch(footBlocks, material -> material.toString().equalsIgnoreCase("AIR"));
+
         final boolean serverGroundFix = !BetterStream.anyMatch(footBlocks, material -> material.toString().equalsIgnoreCase("AIR"));
+
         final boolean serverGround = movementData.isServerGround() && testBoolean;
+
         final boolean clientGround = movementData.isOnGround();
 
         if (serverGround != clientGround && !serverGroundFix && BetterStream.allMatch(footBlocks, material -> material.toString().equalsIgnoreCase("AIR"))) {
