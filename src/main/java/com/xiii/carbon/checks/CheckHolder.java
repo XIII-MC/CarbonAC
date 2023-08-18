@@ -1,5 +1,6 @@
 package com.xiii.carbon.checks;
 
+import com.xiii.carbon.checks.annotation.Disabled;
 import com.xiii.carbon.checks.annotation.Testing;
 import com.xiii.carbon.checks.impl.fastclimb.FastClimbA;
 import com.xiii.carbon.checks.impl.fly.FlyA;
@@ -7,6 +8,7 @@ import com.xiii.carbon.checks.impl.fly.FlyB;
 import com.xiii.carbon.checks.impl.fly.FlyC;
 import com.xiii.carbon.checks.impl.ground.GroundA;
 import com.xiii.carbon.checks.impl.invalid.InvalidA;
+import com.xiii.carbon.checks.impl.invalid.InvalidB;
 import com.xiii.carbon.checks.impl.killaura.KillAuraA;
 import com.xiii.carbon.checks.impl.killaura.KillAuraB;
 import com.xiii.carbon.checks.impl.killaura.KillAuraC;
@@ -69,6 +71,7 @@ public class CheckHolder {
                 new KillAuraC(this.profile),
                 new VelocityA(this.profile),
                 new InvalidA(this.profile),
+                new InvalidB(this.profile),
                 new PacketA(this.profile),
                 new PacketB(this.profile),
                 new FastClimbA(this.profile),
@@ -120,9 +123,9 @@ public class CheckHolder {
 
             /*
             Check if this is being used by a GUI, where we put null as the profile
-            Or a check with the @Testing annotation is present or disabled.
+            Or a check with the @Testing or @Disabled annotation is present or disabled.
              */
-            if (this.profile != null && (!check.isEnabled() || isTesting(check))) continue;
+            if (this.profile != null && (!check.isEnabled() || isTesting(check) || check.getClass().isAnnotationPresent(Disabled.class))) continue;
 
             /*
             Copy the original array and increment the size just like an ArrayList.

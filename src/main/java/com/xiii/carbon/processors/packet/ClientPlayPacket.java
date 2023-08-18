@@ -117,6 +117,10 @@ public class ClientPlayPacket {
                 this.flyingWrapper = new WrapperPlayClientPlayerFlying(packet);
 
                 this.attack = false;
+
+                this.flying = true;
+
+                break;
             case PLAYER_POSITION:
 
                 this.positionWrapper = new WrapperPlayClientPlayerPosition(packet);

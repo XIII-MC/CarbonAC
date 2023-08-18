@@ -17,6 +17,7 @@ import com.xiii.carbon.utils.custom.Equipment;
 import com.xiii.carbon.utils.fastmath.FastMath;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -209,6 +210,7 @@ public class MovementData implements Data {
         this.nearbyBlocks = nearbyBlocksResult.getBlockTypes();
 
         this.aboveBlocks = nearbyBlocksResult.getBlockAboveTypes();
+
 
         this.middleBlocks = nearbyBlocksResult.getBlockMiddleTypes();
 

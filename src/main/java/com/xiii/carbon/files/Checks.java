@@ -107,6 +107,7 @@ public class Checks implements Initializer {
 
         INVALID("invalid", "", "Velocity Check"),
         INVALID_A("invalid.a", true, "Should we enable this module?"),
+        INVALID_B("invalid.b", true, "Should we enable this module?"),
         INVALID_MAX_VL("invalid.max_vl", 3, "The maximum violation amount a player needs to reach in order to get punished"),
         INVALID_COMMANDS("invalid.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
 

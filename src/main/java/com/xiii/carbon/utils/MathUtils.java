@@ -126,4 +126,20 @@ public final class MathUtils {
         }
         return mode;
     }
+
+    public static double getVariance(final Collection<? extends Number> data) {
+        int count = 0;
+        double sum = 0.0;
+        double variance = 0.0;
+        double average;
+        for (final Number number : data) {
+            sum += number.doubleValue();
+            ++count;
+        }
+        average = sum / count;
+        for (final Number number : data) {
+            variance += Math.pow(number.doubleValue() - average, 2.0);
+        }
+        return variance;
+    }
 }

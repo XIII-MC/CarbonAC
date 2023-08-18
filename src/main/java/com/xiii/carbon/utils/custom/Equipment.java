@@ -46,7 +46,7 @@ public class Equipment {
         return this.armorContents[1] != null ? this.armorContents[1] : MiscUtils.EMPTY_ITEM;
     }
 
-    public ItemStack getChestplate() {
+    public ItemStack getChestPlate() {
         return this.armorContents[2] != null ? this.armorContents[2] : MiscUtils.EMPTY_ITEM;
     }
 
