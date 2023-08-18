@@ -7,7 +7,6 @@ import com.xiii.carbon.managers.profile.Profile;
 import com.xiii.carbon.playerdata.data.impl.MovementData;
 import com.xiii.carbon.processors.packet.ClientPlayPacket;
 import com.xiii.carbon.processors.packet.ServerPlayPacket;
-import com.xiii.carbon.utils.BetterStream;
 
 @Experimental
 public class FlyC extends Check {
@@ -26,7 +25,7 @@ public class FlyC extends Check {
 
         final double math = movementData.getLastDeltaY() + movementData.getDeltaY();
 
-        final boolean exempt = profile.isExempt().isLava(50L) || profile.isExempt().isWater(50L) || profile.isExempt().isClimable(50L);
+        final boolean exempt = profile.isExempt().isLava(50L) || profile.isExempt().isWater(50L) || profile.isExempt().isClimable(50L) || profile.isExempt().getTeleportTicks() <= 2;
 
         if (accel > 0 && Math.abs(math) <= 0.02 && !exempt) {
 

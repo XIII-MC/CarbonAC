@@ -3,15 +3,12 @@ package com.xiii.carbon.exempt;
 import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import com.xiii.carbon.Carbon;
 import com.xiii.carbon.managers.profile.Profile;
-import com.xiii.carbon.playerdata.data.impl.CombatData;
 import com.xiii.carbon.playerdata.data.impl.MovementData;
 import com.xiii.carbon.playerdata.data.impl.RotationData;
 import com.xiii.carbon.playerdata.data.impl.TeleportData;
 import com.xiii.carbon.utils.BetterStream;
 import com.xiii.carbon.utils.MathUtils;
-import com.xiii.carbon.utils.TaskUtils;
 import com.xiii.carbon.utils.versionutils.VersionUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
 import java.util.List;
@@ -24,9 +21,9 @@ public class Exempt {
 
     private final Profile profile;
 
-    private boolean fly, water, lava, climable, cobweb, trapdoor_door, cake, cinematic;
+    private boolean fly, water, lava, climable, cobweb, trapdoor_door, cake, cinematic, step;
 
-    private long lastWater, lastLava, lastClimable, lastCobweb, joined = System.currentTimeMillis();
+    private long lastWater, lastLava, lastClimable, lastCobweb, joined = System.currentTimeMillis(), lastStep;
 
     private int teleportTicks;
 
@@ -70,13 +67,18 @@ public class Exempt {
         //Cinematic
         this.cinematic = rotationData.getCinematicProcessor().isCinematic();
 
-        if (this.water) this.lastWater = System.currentTimeMillis();
+        //Step
+        this.step = BetterStream.anyMatch(nearbyBlocks, mat -> mat.toString().contains("STEP") || mat.toString().contains("STAIR"));
 
-        if (this.lava) this.lastLava = System.currentTimeMillis();
+        if (this.water) this.lastWater = timeStamp;
 
-        if (this.climable) this.lastClimable = System.currentTimeMillis();
+        if (this.lava) this.lastLava = timeStamp;
 
-        if (this.cobweb) this.lastCobweb = System.currentTimeMillis();
+        if (this.climable) this.lastClimable = timeStamp;
+
+        if (this.cobweb) this.lastCobweb = timeStamp;
+
+        if (this.step) this.lastStep = timeStamp;
     }
 
     public boolean isFly() {
@@ -133,5 +135,13 @@ public class Exempt {
 
     public boolean isVehicle() {
         return Carbon.getInstance().getNmsManager().getNmsInstance().isInsideVehicle(profile.getPlayer());
+    }
+
+    public boolean isStep() {
+        return step;
+    }
+
+    public long getLastStep() {
+        return lastStep;
     }
 }

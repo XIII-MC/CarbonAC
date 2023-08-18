@@ -7,22 +7,16 @@ import com.github.retrooper.packetevents.protocol.chat.message.ChatMessage;
 import com.github.retrooper.packetevents.protocol.chat.message.ChatMessageLegacy;
 import com.github.retrooper.packetevents.protocol.chat.message.ChatMessage_v1_16;
 import com.github.retrooper.packetevents.protocol.player.User;
-import com.github.retrooper.packetevents.util.adventure.AdventureReflectionUtil;
 import com.github.retrooper.packetevents.util.adventure.AdventureSerializer;
 import com.github.retrooper.packetevents.wrapper.PacketWrapper;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerChatMessage;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerSystemChatMessage;
-import com.xiii.carbon.processors.listener.PacketListener;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
-
-import static io.github.retrooper.packetevents.util.SpigotReflectionUtil.getChannel;
 
 public class JsonBuilder {
 

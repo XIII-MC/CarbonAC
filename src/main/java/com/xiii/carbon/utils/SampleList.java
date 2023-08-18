@@ -1,6 +1,5 @@
 package com.xiii.carbon.utils;
 
-import java.util.Collection;
 import java.util.LinkedList;
 
 public final class SampleList<T> extends LinkedList<T> {

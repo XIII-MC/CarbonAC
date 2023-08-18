@@ -17,7 +17,6 @@ import com.xiii.carbon.utils.custom.Equipment;
 import com.xiii.carbon.utils.fastmath.FastMath;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -81,7 +80,7 @@ public class MovementData implements Data {
                 this.onGround = move.isOnGround();
 
                 this.flyTicks = this.onGround ? 0 : this.flyTicks + 1;
-                this.clientGroundTicks = this.onGround ? 0 : this.clientGroundTicks + 1;
+                this.clientGroundTicks = this.onGround ? this.clientGroundTicks + 1 : 0;
 
                 this.lastLocation = this.location;
                 this.location = new CustomLocation(
@@ -106,7 +105,7 @@ public class MovementData implements Data {
                 this.onGround = posLook.isOnGround();
 
                 this.flyTicks = this.onGround ? 0 : this.flyTicks + 1;
-                this.clientGroundTicks = this.onGround ? 0 : this.clientGroundTicks + 1;
+                this.clientGroundTicks = this.onGround ? this.clientGroundTicks + 1 : 0;
 
                 this.lastLocation = this.location;
                 this.location = new CustomLocation(
@@ -128,7 +127,7 @@ public class MovementData implements Data {
                 this.onGround = look.isOnGround();
 
                 this.flyTicks = this.onGround ? 0 : this.flyTicks + 1;
-                this.clientGroundTicks = this.onGround ? 0 : this.clientGroundTicks + 1;
+                this.clientGroundTicks = this.onGround ? this.clientGroundTicks + 1 : 0;
 
                 this.lastLocation = this.location;
                 this.location = new CustomLocation(
@@ -308,9 +307,9 @@ public class MovementData implements Data {
 
         this.serverGround = serverGround;
 
-        this.serverGroundTicks = serverGround ? 0 : this.serverGroundTicks + 1;
+        this.serverGroundTicks = serverGround ? this.serverGroundTicks + 1 : 0;
 
-        this.lastServerGroundTicks = serverGround ? this.serverGroundTicks + 1 : 0;
+        this.lastServerGroundTicks = serverGround ? 0 : this.serverGroundTicks + 1;
 
         this.airTicks = onGround ? 0 : this.airTicks + 1;
 

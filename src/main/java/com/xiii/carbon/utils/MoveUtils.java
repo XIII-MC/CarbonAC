@@ -19,10 +19,14 @@ public final class MoveUtils {
      * Assuming they're moving forward and no acceleration is applied.
      */
     public static final float BASE_AIR_SPEED = .3565F;
+
+    public static final float NON_ABS_AIR_SPEED = .338F;
     /**
      * Assuming they're moving sideways
      */
     public static final float BASE_GROUND_SPEED = .2867F;
+
+    public static final float NON_ABS_GROUND_SPEED = .2868198F;
     //---------------------------------------------------------------------------------------
     /**
      * 1.9+ Clients last tick motion before it resets to 0 due to .003D

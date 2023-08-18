@@ -1,7 +1,6 @@
 package com.xiii.carbon.checks.impl.timer;
 
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
-import com.xiii.carbon.checks.annotation.Experimental;
 import com.xiii.carbon.checks.enums.CheckType;
 import com.xiii.carbon.checks.types.Check;
 import com.xiii.carbon.managers.profile.Profile;

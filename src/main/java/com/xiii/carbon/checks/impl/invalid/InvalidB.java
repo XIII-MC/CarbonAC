@@ -20,15 +20,21 @@ public class InvalidB extends Check {
     }
 
     @Override
-    public void handle(ClientPlayPacket clientPlayPacket) {
+    public void handle(final ClientPlayPacket clientPlayPacket) {
+
         if (!clientPlayPacket.isMovement()) return;
+
         final MovementData data = profile.getMovementData();
+
         double predictionY = (data.getLastDeltaY() - 0.08D) * 0.98f;
 
         final boolean blockAtFeet = !BetterStream.allMatch(data.getFootBlocks(), material -> material.toString().equalsIgnoreCase("AIR"));
+
         if (blockAtFeet && data.getDeltaY() == 0) predictionY = 0;
         if (data.isLastOnGround() && !data.isOnGround() && data.getDeltaY() > 0.3) predictionY = MoveUtils.JUMP_MOTION + (PlayerUtils.getEffectByType(profile, PotionEffectType.JUMP).isPresent() ? (PlayerUtils.getPotionEffectAmplifier(profile, PotionEffectType.JUMP) + 1) * 0.1f : 0);
+
         double offset = MathUtils.decimalRound(predictionY, 8) - MathUtils.decimalRound(data.getDeltaY(), 8);
+
         if (profile.isExempt().isJoined(5000L) || profile.isExempt().getTeleportTicks() < 2 || BetterStream.anyMatch(data.getFootBlocks(), material -> material.toString().contains("SLIME"))) offset = 0;
         if (Math.abs(offset) > 0.6 && increaseBufferBy(1) > 1)
             fail("o=" + offset);
@@ -36,5 +42,5 @@ public class InvalidB extends Check {
     }
 
     @Override
-    public void handle(ServerPlayPacket serverPlayPacket) {}
+    public void handle(final ServerPlayPacket serverPlayPacket) {}
 }
