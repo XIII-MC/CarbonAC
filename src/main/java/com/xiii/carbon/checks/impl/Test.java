@@ -21,24 +21,25 @@ public class Test extends Check {
 
     @Override
     public void handle(final ClientPlayPacket clientPlayPacket) {
+
         if (!clientPlayPacket.isRotation()) return;
         if (profile.isExempt().isJoined(5000L) || profile.isExempt().isVehicle()) return;
         final RotationData data = profile.getRotationData();
-        double test = data.getDeltaYaw() / data.getLastDeltaYaw();
-        double test2 = data.getYawAccel() / data.getLastYawAccel();
-        double gcd = MathUtils.getAbsoluteGcd((float) test, (float) test2);
+        final double divDeltaYaw = data.getDeltaYaw() / data.getLastDeltaYaw();
+        final double test2 = data.getYawAccel() / data.getLastYawAccel();
+        double gcd = MathUtils.getAbsoluteGcd((float) divDeltaYaw, (float) test2);
         double funnimath = (data.getLastDeltaYaw() + data.getDeltaYaw()) % (data.getDeltaYaw() + data.getLastDeltaYaw() + 1000);
-        debug(funnimath + " " + exemptticks + " b=" + getBuffer());
-        if (funnimath < 0.5) exemptticks++;
+        //debug(funnimath + " " + exemptticks + " b=" + getBuffer());
+        if (funnimath < 0.3) exemptticks++;
         else exemptticks = 0;
-        if ((gcd < 1E-17 || (Double.isInfinite(test) && Double.isInfinite(test2))) && exemptticks < 2) {
-            if (increaseBufferBy(1) > 3) {
-                fail("gcd=" + gcd + " test=" + test + " test2=" + test2 + " buffer=" + getBuffer() + " funni=" + funnimath);
+        if ((gcd < 1E-17 || (Double.isInfinite(divDeltaYaw) && Double.isInfinite(test2))) && exemptticks < 2) {
+            if (increaseBufferBy(1) > 2) {
+                fail("gcd=" + gcd + " divDeltaYaw=" + divDeltaYaw + " test2=" + test2 + " buffer=" + getBuffer() + " funni=" + funnimath);
             }
         } else decreaseBufferBy(0.05);
 
 
-            //debug("player=" + profile + " gcd=" + gcd + " test=" + test + " test2=" + test2);
+            //debug("player=" + profile + " gcd=" + gcd + " divDeltaYaw=" + divDeltaYaw + " test2=" + test2);
 
 
     }

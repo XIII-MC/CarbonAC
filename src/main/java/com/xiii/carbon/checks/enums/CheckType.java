@@ -7,7 +7,7 @@ public enum CheckType {
     VELOCITY("Velocity", CheckCategory.COMBAT),
     SPEED("Speed", CheckCategory.MOVEMENT),
     KILLAURA("KillAura", CheckCategory.COMBAT),
-    AIM("Aim", CheckCategory.COMBAT),
+    AIMASSIST("AimAssist", CheckCategory.COMBAT),
     TEST("Test", CheckCategory.MOVEMENT),
     TIMER("Timer", CheckCategory.PACKET),
     INVALID("Invalid", CheckCategory.MOVEMENT),

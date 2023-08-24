@@ -128,10 +128,10 @@ public class Checks implements Initializer {
         GROUND_MAX_VL("ground.max_vl", 6, "The maximum violation amount a player needs to reach in order tp get punished"),
         GROUND_COMMANDS("ground.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
 
-        AIM("aim", "", "Aim Check"),
-        AIM_A("aim.a", true, "Should we enable this module?"),
-        AIM_MAX_VL("aim.max_vl", 6, "The maximum violation amount a player needs to reach in order tp get punished"),
-        AIM_COMMANDS("aim.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
+        AIMASSIST("aimassist", "", "Aim Check"),
+        AIMASSIST_A("aimassist.a", true, "Should we enable this module?"),
+        AIMASSIST_MAX_VL("aimassist.max_vl", 6, "The maximum violation amount a player needs to reach in order tp get punished"),
+        AIMASSIST_COMMANDS("aimassist.commands", Collections.singletonList("kick %player% " + MsgType.PREFIX.getMessage() +  " Unfair Advantage"), "The commands that will get executed once a player reaches the maximum violation amount"),
 
         TEST("test", "", "Test Check"),
         TEST_A("test.a", true, "Should we enable this module?"),

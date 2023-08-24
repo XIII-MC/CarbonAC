@@ -3,7 +3,7 @@ package com.xiii.carbon.checks;
 import com.xiii.carbon.checks.annotation.Disabled;
 import com.xiii.carbon.checks.annotation.Testing;
 import com.xiii.carbon.checks.impl.Test;
-import com.xiii.carbon.checks.impl.aim.AimA;
+import com.xiii.carbon.checks.impl.aim.AimAssistA;
 import com.xiii.carbon.checks.impl.fastclimb.FastClimbA;
 import com.xiii.carbon.checks.impl.fly.FlyA;
 import com.xiii.carbon.checks.impl.fly.FlyB;
@@ -62,7 +62,7 @@ public class CheckHolder {
          */
         addChecks(
                 new Test(this.profile),
-                new AimA(this.profile),
+                new AimAssistA(this.profile),
                 new FlyA(this.profile),
                 new FlyB(this.profile),
                 new FlyC(this.profile),
