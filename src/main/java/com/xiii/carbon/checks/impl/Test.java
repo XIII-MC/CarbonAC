@@ -11,7 +11,7 @@ import com.xiii.carbon.processors.packet.ClientPlayPacket;
 import com.xiii.carbon.processors.packet.ServerPlayPacket;
 import com.xiii.carbon.utils.MathUtils;
 
-@Disabled
+@Testing
 public class Test extends Check {
 
     public Test(final Profile profile) {
@@ -26,9 +26,11 @@ public class Test extends Check {
         double test = data.getDeltaYaw() / data.getLastDeltaYaw();
         double test2 = data.getYawAccel() / data.getLastYawAccel();
         double gcd = MathUtils.getAbsoluteGcd((float) test, (float) test2);
-        if (gcd < 1E-17 || (Double.isInfinite(test) && Double.isInfinite(test2))) {
+        double funnimath = test % (data.getDeltaYaw() + data.getLastDeltaYaw());
+        //debug(funnimath);
+        if ((gcd < 1E-17 || (Double.isInfinite(test) && Double.isInfinite(test2))) && !Double.isNaN(funnimath)) {
             if (increaseBufferBy(1) > 3) {
-                fail("gcd=" + gcd + " test=" + test + " test2=" + test2 + " buffer=");
+                fail("gcd=" + gcd + " test=" + test + " test2=" + test2 + " buffer=" + getBuffer() + " funni=" + funnimath);
             }
         } else decreaseBufferBy(0.05);
 
