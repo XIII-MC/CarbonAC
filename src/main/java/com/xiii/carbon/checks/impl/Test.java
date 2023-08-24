@@ -13,10 +13,11 @@ import com.xiii.carbon.utils.MathUtils;
 
 @Testing
 public class Test extends Check {
-
     public Test(final Profile profile) {
         super(profile, CheckType.TEST, "A", "Test Check for the Developers.");
     }
+
+    int exemptticks = 0;
 
     @Override
     public void handle(final ClientPlayPacket clientPlayPacket) {
@@ -26,9 +27,11 @@ public class Test extends Check {
         double test = data.getDeltaYaw() / data.getLastDeltaYaw();
         double test2 = data.getYawAccel() / data.getLastYawAccel();
         double gcd = MathUtils.getAbsoluteGcd((float) test, (float) test2);
-        double funnimath = test % (data.getDeltaYaw() + data.getLastDeltaYaw());
-        //debug(funnimath);
-        if ((gcd < 1E-17 || (Double.isInfinite(test) && Double.isInfinite(test2))) && !Double.isNaN(funnimath)) {
+        double funnimath = (data.getLastDeltaYaw() + data.getDeltaYaw()) % (data.getDeltaYaw() + data.getLastDeltaYaw() + 1000);
+        debug(funnimath + " " + exemptticks + " b=" + getBuffer());
+        if (funnimath < 0.5) exemptticks++;
+        else exemptticks = 0;
+        if ((gcd < 1E-17 || (Double.isInfinite(test) && Double.isInfinite(test2))) && exemptticks < 2) {
             if (increaseBufferBy(1) > 3) {
                 fail("gcd=" + gcd + " test=" + test + " test2=" + test2 + " buffer=" + getBuffer() + " funni=" + funnimath);
             }
