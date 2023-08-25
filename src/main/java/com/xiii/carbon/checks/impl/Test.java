@@ -29,7 +29,6 @@ public class Test extends Check {
         final double test2 = data.getYawAccel() / data.getLastYawAccel();
         double gcd = MathUtils.getAbsoluteGcd((float) divDeltaYaw, (float) test2);
         double funnimath = (data.getLastDeltaYaw() + data.getDeltaYaw()) % (data.getDeltaYaw() + data.getLastDeltaYaw() + 1000);
-        //debug(funnimath + " " + exemptticks + " b=" + getBuffer());
         if (funnimath < 0.3) exemptticks++;
         else exemptticks = 0;
         if ((gcd < 1E-17 || (Double.isInfinite(divDeltaYaw) && Double.isInfinite(test2))) && exemptticks < 2) {
@@ -37,7 +36,7 @@ public class Test extends Check {
                 fail("gcd=" + gcd + " divDeltaYaw=" + divDeltaYaw + " test2=" + test2 + " buffer=" + getBuffer() + " funni=" + funnimath);
             }
         } else decreaseBufferBy(0.05);
-
+        if (getBuffer() > 0 || exemptticks > 0) debug(funnimath + " " + data.getDeltaYaw() + " " + exemptticks + " b=" + getBuffer());
 
             //debug("player=" + profile + " gcd=" + gcd + " divDeltaYaw=" + divDeltaYaw + " test2=" + test2);
 
