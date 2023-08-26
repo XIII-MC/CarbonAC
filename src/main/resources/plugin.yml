@@ -5,6 +5,13 @@ api-version: 1.20
 prefix: Carbon
 authors: [ XIII___, Dukeinpro (Vagdedes2) ]
 description: A Minecraft anti-cheat solution
+softdepend:
+  - ProtocolLib
+  - ProtocolSupport
+  - ViaVersion
+  - ViaBackwards
+  - ViaRewind
+  - Geyser-Spigot
 commands:
   carbon:
     usage: /carbon
