@@ -23,23 +23,23 @@ public class Test extends Check {
     public void handle(final ClientPlayPacket clientPlayPacket) {
 
         if (!clientPlayPacket.isRotation()) return;
-        if (profile.isExempt().isJoined(5000L) || profile.isExempt().isVehicle()) return;
-        final RotationData data = profile.getRotationData();
-        double funnimath = (data.getLastDeltaYaw() + data.getDeltaYaw()) % (data.getDeltaYaw() + data.getLastDeltaYaw() + 1000);
-        if (funnimath < 0.5) exemptticks++;
-        else exemptticks = 0;
-        final double divDeltaYaw = data.getDeltaYaw() / data.getLastDeltaYaw();
-        final double test2 = data.getYawAccel() / data.getLastYawAccel();
-        double gcd = MathUtils.getAbsoluteGcd((float) divDeltaYaw, (float) test2);
-        if ((gcd < 1E-17 || (Double.isInfinite(divDeltaYaw) && Double.isInfinite(test2)))) {
-            if (exemptticks < 1 && increaseBufferBy(1) > 1) {
-                fail("gcd=" + gcd + " divDeltaYaw=" + divDeltaYaw + " test2=" + test2 + " buffer=" + getBuffer() + " funni=" + funnimath);
-            }
-            //if (exemptticks < 2 && (Double.isInfinite(divDeltaYaw) && Double.isInfinite(test2))) fail("INFINITY gcd=" + gcd + " divDeltaYaw=" + divDeltaYaw + " test2=" + test2 + " buffer=" + getBuffer() + " funni=" + funnimath);
-        } else decreaseBufferBy(0.025);
-        if (getBuffer() > 0 || exemptticks > 0) debug( funnimath + " " + data.getDeltaYaw() + " " + exemptticks + " b=" + getBuffer());
 
-            //debug("player=" + profile + " gcd=" + gcd + " divDeltaYaw=" + divDeltaYaw + " test2=" + test2);
+        if (profile.isExempt().isJoined(5000L) || profile.isExempt().isVehicle()) return;
+
+        final RotationData data = profile.getRotationData();
+
+        final double fix = (data.getLastDeltaYaw() + data.getDeltaYaw()) % (data.getDeltaYaw() + data.getLastDeltaYaw() + 1000);
+        if (fix < 0.31) exemptticks++;
+        else exemptticks = 0;
+
+        double gcd = MathUtils.getAbsoluteGcd(data.getYawAccel() * 3242869, data.getLastYawAccel() * 3242869) % MathUtils.getAbsoluteGcd(data.getDeltaYaw() * 3242869, data.getLastDeltaYaw() * 3242869);
+
+        if (gcd != 0 && !String.valueOf(gcd).contains("E") && exemptticks < 2) {
+            if (increaseBufferBy(1) > 10)
+                fail("LITTLE MONKEY BITCH GET FUCKED RETARDED BNASTERDATERED NEINNNN FRUNKFURT " + gcd + " et=" + exemptticks);
+        } else if(gcd != 0) resetBuffer();
+
+        debug(profile.getPlayer().getName() + " " + gcd + " et=" + exemptticks + " b=" + getBuffer());
 
 
     }
