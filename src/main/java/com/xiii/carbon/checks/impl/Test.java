@@ -25,18 +25,19 @@ public class Test extends Check {
         if (!clientPlayPacket.isRotation()) return;
         if (profile.isExempt().isJoined(5000L) || profile.isExempt().isVehicle()) return;
         final RotationData data = profile.getRotationData();
+        double funnimath = (data.getLastDeltaYaw() + data.getDeltaYaw()) % (data.getDeltaYaw() + data.getLastDeltaYaw() + 1000);
+        if (funnimath < 0.5) exemptticks++;
+        else exemptticks = 0;
         final double divDeltaYaw = data.getDeltaYaw() / data.getLastDeltaYaw();
         final double test2 = data.getYawAccel() / data.getLastYawAccel();
         double gcd = MathUtils.getAbsoluteGcd((float) divDeltaYaw, (float) test2);
-        double funnimath = (data.getLastDeltaYaw() + data.getDeltaYaw()) % (data.getDeltaYaw() + data.getLastDeltaYaw() + 1000);
-        if (funnimath < 0.3) exemptticks++;
-        else exemptticks = 0;
-        if ((gcd < 1E-17 || (Double.isInfinite(divDeltaYaw) && Double.isInfinite(test2))) && exemptticks < 2) {
-            if (increaseBufferBy(1) > 2) {
+        if ((gcd < 1E-17 || (Double.isInfinite(divDeltaYaw) && Double.isInfinite(test2)))) {
+            if (exemptticks < 1 && increaseBufferBy(1) > 1) {
                 fail("gcd=" + gcd + " divDeltaYaw=" + divDeltaYaw + " test2=" + test2 + " buffer=" + getBuffer() + " funni=" + funnimath);
             }
-        } else decreaseBufferBy(0.05);
-        if (getBuffer() > 0 || exemptticks > 0) debug(funnimath + " " + data.getDeltaYaw() + " " + exemptticks + " b=" + getBuffer());
+            //if (exemptticks < 2 && (Double.isInfinite(divDeltaYaw) && Double.isInfinite(test2))) fail("INFINITY gcd=" + gcd + " divDeltaYaw=" + divDeltaYaw + " test2=" + test2 + " buffer=" + getBuffer() + " funni=" + funnimath);
+        } else decreaseBufferBy(0.025);
+        if (getBuffer() > 0 || exemptticks > 0) debug( funnimath + " " + data.getDeltaYaw() + " " + exemptticks + " b=" + getBuffer());
 
             //debug("player=" + profile + " gcd=" + gcd + " divDeltaYaw=" + divDeltaYaw + " test2=" + test2);
 
