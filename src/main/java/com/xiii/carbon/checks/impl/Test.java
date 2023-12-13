@@ -6,10 +6,16 @@ import com.xiii.carbon.checks.annotation.Testing;
 import com.xiii.carbon.checks.enums.CheckType;
 import com.xiii.carbon.checks.types.Check;
 import com.xiii.carbon.managers.profile.Profile;
+import com.xiii.carbon.playerdata.data.impl.MovementData;
 import com.xiii.carbon.playerdata.data.impl.RotationData;
 import com.xiii.carbon.processors.packet.ClientPlayPacket;
 import com.xiii.carbon.processors.packet.ServerPlayPacket;
+import com.xiii.carbon.utils.BetterStream;
 import com.xiii.carbon.utils.MathUtils;
+import com.xiii.carbon.utils.MoveUtils;
+import org.bukkit.Material;
+
+import java.util.List;
 
 @Testing
 public class Test extends Check {
@@ -22,7 +28,21 @@ public class Test extends Check {
     @Override
     public void handle(final ClientPlayPacket clientPlayPacket) {
 
-        if (!clientPlayPacket.isRotation()) return;
+        if (!clientPlayPacket.isMovement()) return;
+
+        final MovementData data = profile.getMovementData();
+        final List<Material> footBlocks = data.getFootBlocks();
+
+        final boolean testBoolean = BetterStream.anyMatch(footBlocks, material -> material.toString().equalsIgnoreCase("AIR"));
+
+        if (data.getDeltaXZ() < data.getLastDeltaXZ() && testBoolean && data.getAccelXZ() > 0.08 && data.getAccelXZ() < 0.13 && data.getDeltaXZ() < 0.13 && data.getDeltaXZ() > 0.02) {
+            if (increaseBufferBy(1) > 3)
+                debug(data.getDeltaXZ() + " " + data.getAccelXZ());
+        }else decreaseBufferBy(0.01);
+
+        // predictionXZ + " " + data.getAccelXZ() + " " +
+
+        /*if (!clientPlayPacket.isRotation()) return;
 
         if (profile.isExempt().isJoined(5000L) || profile.isExempt().isVehicle()) return;
 
@@ -40,7 +60,7 @@ public class Test extends Check {
         } else if(gcd != 0) resetBuffer();
 
         debug(profile.getPlayer().getName() + " " + gcd + " et=" + exemptticks + " b=" + getBuffer());
-
+        */
 
     }
 
